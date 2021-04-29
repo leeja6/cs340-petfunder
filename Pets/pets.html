@@ -6,7 +6,10 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <!--Get form-->
+        <button type="button" onclick="location.href='../index.html'">Home</button>
+        <button type="button" onclick="location.href='../Sponsorships/sponsorships.html'">Sponsorships</button>
+        <br />
+        <br />
         <form action="http://web.engr.oregonstate.edu/~zhangluy/tools/class-content/form_tests/check_request.php" method="get">
             <fieldset>
                 <legend>Pet Info</legend>
@@ -35,13 +38,11 @@
                 </label>
                 <br />
                 <br />
-                <label>Adoptable:
-                    <input list="boolean">
-                    <datalist id="boolean">
-                        <option value="True"></option>
-                        <option value="False"></option>
-                    </datalist>
-                </label>
+                <label>Adoptable:</label>
+                <input type="radio" id="true" name="adoptable" value="true">
+                <label for="true">True</label>
+                <input type="radio" id="false" name="adoptable" value="false">
+                <label for="false">False</label>
                 <br />
                 <br />
                 <label>Goal:
