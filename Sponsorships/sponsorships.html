@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sponsorships</title>
+
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+<button type="button" onclick="location.href='../index.html'">Home</button>
+<button type="button" onclick="location.href='../Sponsor/sponsor.html'">Sponsors</button>
+<h1>Sponsorships</h1>
+<label>Sponsorship Type</label>
+<input type="radio" id="createPets" name="createType" value="pets" onclick="formCreateToggled(this)" checked>
+<label for="createPets">Pet</label>
+<input type="radio" id="createShelters" name="createType" value="shelters" onclick="formCreateToggled(this)">
+<label for="createShelters">Shelter</label><br>
+<label for="sponsorID">Sponsor ID</label>
+<input type="text" id="sponsorID" name="sponsorID"><br>
+<label for="sponsoredID" id="sponsoredIDLabel">Pet Id</label>
+<input type="text" id="sponsoredID" name="sponsoredID"><br>
+<label for="amount">Amount</label>
+<input type="number" id="amount" name="amount"><br>
+<label for="beginDate">Begin Date</label>
+<input type="date" id="beginDate" name="beginDate "><br>
+<label for="endDate">End Date</label>
+<input type="date" id="endDate" name="endDate"><br>
+<button type="button" onclick="createSponsorship()">Create Sponsorship</button><br>
+<label>Choose a display:</label>
+<br>
+<input type="radio" id="displayPets" name="displayType" value="pets" onclick="tableDisplayToggled(this)" checked>
+<label for="pets">Pets</label><br>
+<input type="radio" id="displayShelters" name="displayType" value="shelters" onclick="tableDisplayToggled(this)">
+<label for="shelters">Shelters</label><br>
+<br>
+<label for="sponsorIDSearch">sponsorID Filter</label>
+<input type="text" id="sponsorIDSearch" name="sponsorIDSearch" oninput="resetTable()">
+<input type="checkbox" id="filterUsed" name="filterUsed" value="true" onclick="resetTable()">
+<label for="filterUsed">Use Filter</label><br>
+  <table>
+    <thead>
+    <tr>
+        <th>sponsorID</th>
+        <th id="idHeaderValue">petID</th>
+        <th>amount</th>
+        <th>beginDate</th>
+        <th>endDate</th>
+    </tr>
+    </thead>
+    <tbody id="sponsorshipsTableBody">
+    </tbody>
+  </table>
+  <script src="scripts.js"></script>
+</body>
+</html>
