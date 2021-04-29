@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Shelter input</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <!--Get form-->
+        <form action="http://web.engr.oregonstate.edu/~zhangluy/tools/class-content/form_tests/check_request.php" method="get">
+            <fieldset>
+                <legend>Shelter Info</legend>
+                <label>Name:
+                    <input type="text" name="text_input" size="30" maxlength="100">
+                </label>
+                <br />
+                <br />
+                <label>Street Address:
+                    <input type="text" name="text_input" size="30" maxlength="100">
+                </label>
+                <br />
+                <br />
+                <label>City:
+                    <input type="text" name="text_input" size="30" maxlength="100">
+                </label>
+                <br />
+                <br />
+                <label>State:
+                    <input type="text" name="text_input" size="30" maxlength="100">
+                </label>
+                <br />
+                <br />
+                <label>Phone number:
+                    <input type="text" name="text_input" size="30" maxlength="100">
+                </label>
+                <br />
+                <br />
+                <label>Fax:
+                    <input type="text" name="text_input" size="30" maxlength="100">
+                </label>
+                <br />
+                <br />
+                <label>Email:
+                    <input type="text" name="text_input" size="30" maxlength="100">
+                </label>
+                <br />
+                <br />
+                <label>Sponsorable:
+                    <input list="boolean">
+                    <datalist id="boolean">
+                        <option value="True"></option>
+                        <option value="False"></option>
+                    </datalist>
+                </label>
+            </fieldset>
+        </form>
+
+       <br>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Shelter ID</th>
+                    <th>Registration Date</th>
+                    <th>Name</th>
+                    <th>Street Address</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Phone Number</th>
+                    <th>Fax</th>
+                    <th>Email</th>
+                    <th>Sponsorable</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>4/28/21</td>
+                    <td>Orange County Animal Shelter</td>
+                    <td>1630 Victory Road</td>
+                    <td>Tustin</td>
+                    <td>CA</td>
+                    <td>714-935-6848</td>
+                    <td>714-259-1094</td>
+                    <td>Foster@occr.ocgov.com</td>
+                    <td>True</td> 
+                    <td><button class="editbtn">Edit</button></td>
+                    <td><button class="deletebtn">Delete</button></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>4/28/21</td>
+                    <td>Oregon Humane Society</td>
+                    <td>1067 NE Columnbia Blvd.</td>
+                    <td>Portland</td>
+                    <td>OR</td>
+                    <td>503-285-7722</td>
+                    <td>NULL</td>
+                    <td>NULL</td>
+                    <td>True</td> 
+                    <td><button class="editbtn">Edit</button></td>
+                    <td><button class="deletebtn">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+</body>
+</html>

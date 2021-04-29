@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Pet input</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <!--Get form-->
+        <form action="http://web.engr.oregonstate.edu/~zhangluy/tools/class-content/form_tests/check_request.php" method="get">
+            <fieldset>
+                <legend>Pet Info</legend>
+                <label>Name:
+                    <input type="text" name="text_input" size="30" maxlength="100">
+                </label>
+                <br />
+                <br />
+                <label>Birthday:
+                    <input type="date" name="date_input" size="30">
+                </label>
+                <br />
+                <br />
+                <label>Type (dog, cat, etc.):
+                    <input type="text" name="text_input" size="30" maxlength="100">
+                </label>
+                <br />
+                <br />
+                <label>Breed:
+                    <input type="text" name="text_input" size="30" maxlength="100">
+                </label>
+                <br />
+                <br />
+                <label>Personality:
+                    <input type="text" name="text_input" size="30" maxlength="100">
+                </label>
+                <br />
+                <br />
+                <label>Adoptable:
+                    <input list="boolean">
+                    <datalist id="boolean">
+                        <option value="True"></option>
+                        <option value="False"></option>
+                    </datalist>
+                </label>
+                <br />
+                <br />
+                <label>Goal:
+                    <input type="text" name="text_input" size="30" maxlength="100">
+                </label>
+                <br />
+                <br />
+                <label>Shelter ID:
+                    <input type="number" name="num_input" size="30">
+                </label>
+                <br />
+                <br />
+                <input type="submit" value="submit" />
+            </fieldset>
+        </form>
+
+       <br>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Pet ID</th>
+                    <th>Registration Date</th>
+                    <th>Name</th>
+                    <th>Birthday</th>
+                    <th>Animal</th>
+                    <th>Breed</th>
+                    <th>Personality</th>
+                    <th>Adoptable</th>
+                    <th>Goal</th>
+                    <th>Shelter ID</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>4/28/21</td>
+                    <td>Ratchet</td>
+                    <td>5/8/17</td>
+                    <td>cat</td>
+                    <td>ASH</td>
+                    <td>princess</td>
+                    <td>True</td>
+                    <td>Pet toys</td>
+                    <td>1</td> 
+                    <td><button class="editbtn">Edit</button></td>
+                    <td><button class="deletebtn">Delete</button></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>4/28/21</td>
+                    <td>Clank</td>
+                    <td>4/3/18</td>
+                    <td>cat</td>
+                    <td>ASH</td>
+                    <td>derpy</td>
+                    <td>False</td>
+                    <td>Medicine</td>
+                    <td>2</td> 
+                    <td><button class="editbtn">Edit</button></td>
+                    <td><button class="deletebtn">Delete</button></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>4/28/21</td>
+                    <td>Banjo</td>
+                    <td>5/24/20</td>
+                    <td>cat</td>
+                    <td>ASH</td>
+                    <td>sweetheart</td>
+                    <td>True</td>
+                    <td>Food</td>
+                    <td>1</td> 
+                    <td><button class="editbtn">Edit</button></td>
+                    <td><button class="deletebtn">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+</body>
+</html>
