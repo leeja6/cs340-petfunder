@@ -12,7 +12,13 @@
 <body>
 <button type="button" onclick="location.href='../index.html'">Home</button>
 <button type="button" onclick="location.href='../Sponsor/sponsor.html'">Sponsors</button>
-<h1>Sponsorships</h1>
+<button type="button" onclick="location.href='../Pets/pets.html'">Pets</button>
+<button type="button" onclick="location.href='../Shelters/shelters.html'">Shelters</button>
+
+<form>
+<br>
+<fieldset>
+<legend>Sponsorship Info</legend>
 <label>Sponsorship Type</label>
 <input type="radio" id="createPets" name="createType" value="pets" onclick="formCreateToggled(this)" checked>
 <label for="createPets">Pet</label>
@@ -29,10 +35,12 @@
 <label for="endDate">End Date</label>
 <input type="date" id="endDate" name="endDate"><br>
 <button type="button" onclick="createSponsorship()">Create Sponsorship</button><br>
-<label>Choose a display:</label>
+</fieldset>
+</form>
 <br>
+<label>Choose a display:</label>
 <input type="radio" id="displayPets" name="displayType" value="pets" onclick="tableDisplayToggled(this)" checked>
-<label for="pets">Pets</label><br>
+<label for="pets">Pets</label>
 <input type="radio" id="displayShelters" name="displayType" value="shelters" onclick="tableDisplayToggled(this)">
 <label for="shelters">Shelters</label><br>
 <br>
@@ -40,6 +48,7 @@
 <input type="text" id="sponsorIDSearch" name="sponsorIDSearch" oninput="resetTable()">
 <input type="checkbox" id="filterUsed" name="filterUsed" value="true" onclick="resetTable()">
 <label for="filterUsed">Use Filter</label><br>
+<br>
   <table>
     <thead>
     <tr>

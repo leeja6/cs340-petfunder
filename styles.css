@@ -1,0 +1,8 @@
+table, td, th {
+  border-collapse: collapse;
+  border:1px solid black;
+}
+
+tbody tr:nth-of-type(2n) {
+  background:#ebebeb;
+}
