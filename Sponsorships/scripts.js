@@ -146,6 +146,11 @@ function addRowToSponsorshipsTable(row, bodyElement, type) {
   deleteButton.addEventListener('click',function(event) {
     deleteSponsorship(orderedRow[0],orderedRow[1],type);
   })
+  var editButton = document.createElement('button');
+  editButton.innerHTML = "Edit";
+  var editRow = document.createElement('td');
+  editRow.appendChild(editButton);
+  tr.appendChild(editRow);
   var deleteRow = document.createElement('td');
   deleteRow.appendChild(deleteButton);
   tr.appendChild(deleteRow);

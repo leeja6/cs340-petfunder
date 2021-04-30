@@ -60,5 +60,29 @@ function addRowToSponsorTable(row, bodyElement) {
       td.innerHTML = row[dataColumn];
     tr.appendChild(td);
   }
+  var editButton = document.createElement('button');
+  editButton.innerHTML = "Edit";
+  var editRow = document.createElement('td');
+  editRow.appendChild(editButton);
+  tr.appendChild(editRow);
+  var deleteButton = document.createElement('button');
+  deleteButton.innerHTML = "Delete";
+  deleteButton.addEventListener('click',function(event) {
+    deleteSponsor(row["sponsorID"]);
+  })
+  var deleteRow = document.createElement('td');
+  deleteRow.appendChild(deleteButton);
+  tr.appendChild(deleteRow);
   bodyElement.appendChild(tr);
+}
+
+function deleteSponsor(sponsorID) {
+  for (var i = 0; i < sampleSponsors.length; i++) {
+    var sponsorIDMatch = sampleSponsors[i]["sponsorID"]==sponsorID;
+    if (sponsorIDMatch) {
+      sampleSponsors.splice(i,1);
+      populateSponsorTable(sampleSponsors);
+      break;
+      }
+  }
 }
