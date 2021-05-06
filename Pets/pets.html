@@ -2,44 +2,41 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Pet input</title>
+        <title>Pets</title>
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-      <div class="nav-bar">
-        <a href="../index.html">Home</a>
-        <a href="../Shelters/shelters.html">Shelters</a>
-        <a class="active" href="pets.html">Pets</a>
-        <a href="../Sponsors/sponsors.html">Sponsors</a>
-        <a href="../Sponsorships/sponsorships.html">Sponsorships</a>
-      </div>
-      <br />
-      <br />
-      <form action="http://web.engr.oregonstate.edu/~zhangluy/tools/class-content/form_tests/check_request.php" method="get">
+        <button type="button" onclick="location.href='../index.html'">Home</button>
+        <button type="button" onclick="location.href='../Sponsorships/sponsorships.html'">Sponsorships</button>
+        <button type="button" onclick="location.href='../Sponsors/sponsors.html'">Sponsors</button>
+        <button type="button" onclick="location.href='../Shelters/shelters.html'">Shelters</button>
+        <br />
+        <br />
+        <form>
             <fieldset>
                 <legend>Add Pet to Pets Database</legend>
                 <label>Name:
-                    <input type="text" name="text_input" size="30" maxlength="100">
+                    <input type="text" id="name" name="name" size="30" maxlength="100" required>
                 </label>
                 <br />
                 <br />
                 <label>Birthday:
-                    <input type="date" name="date_input" size="30">
+                    <input id="birthday" type="date" name="birthday" size="30" required>
                 </label>
                 <br />
                 <br />
-                <label>Type (dog, cat, etc.):
-                    <input type="text" name="text_input" size="30" maxlength="100">
+                <label>Animal (dog, cat, etc.):
+                    <input id = "animal" type="text" name="animal" size="30" maxlength="100" required>
                 </label>
                 <br />
                 <br />
                 <label>Breed:
-                    <input type="text" name="text_input" size="30" maxlength="100">
+                    <input id="breed" type="text" name="breed" size="30" maxlength="100">
                 </label>
                 <br />
                 <br />
                 <label>Personality:
-                    <input type="text" name="text_input" size="30" maxlength="100">
+                    <input id="personality" type="text" name="personality" size="30" required>
                 </label>
                 <br />
                 <br />
@@ -51,21 +48,21 @@
                 <br />
                 <br />
                 <label>Goal:
-                    <input type="text" name="text_input" size="30" maxlength="100">
+                    <input id="goal" type="text" name="goal" size="30" required>
                 </label>
                 <br />
                 <br />
                 <label>Shelter ID:
-                    <input type="number" name="num_input" size="30">
+                    <input id="shelterID" type="text" name="shelterID" size="30">
                 </label>
                 <br />
                 <br />
-                <input type="submit" value="Create Pet" />
+                <button type="button" onclick="createPet()">Create Pet</button>
             </fieldset>
         </form>
 
         <br>
-
+        
         <table>
             <caption>Pets Database</caption>
             <thead>
@@ -84,50 +81,9 @@
                     <th>Delete</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>4/28/21</td>
-                    <td>Ratchet</td>
-                    <td>5/8/17</td>
-                    <td>cat</td>
-                    <td>ASH</td>
-                    <td>princess</td>
-                    <td>True</td>
-                    <td>Pet toys</td>
-                    <td>1</td>
-                    <td><button class="editbtn">Edit</button></td>
-                    <td><button class="deletebtn">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>4/28/21</td>
-                    <td>Clank</td>
-                    <td>4/3/18</td>
-                    <td>cat</td>
-                    <td>ASH</td>
-                    <td>derpy</td>
-                    <td>False</td>
-                    <td>Medicine</td>
-                    <td>2</td>
-                    <td><button class="editbtn">Edit</button></td>
-                    <td><button class="deletebtn">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>4/28/21</td>
-                    <td>Banjo</td>
-                    <td>5/24/20</td>
-                    <td>cat</td>
-                    <td>ASH</td>
-                    <td>sweetheart</td>
-                    <td>True</td>
-                    <td>Food</td>
-                    <td>1</td>
-                    <td><button class="editbtn">Edit</button></td>
-                    <td><button class="deletebtn">Delete</button></td>
-                </tr>
+            <tbody id="petsTableBody">                
             </tbody>
         </table>
+        <script src="scripts.js"></script>
 </body>
 </html>
