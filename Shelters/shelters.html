@@ -2,54 +2,51 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Shelter input</title>
+        <title>Shelters</title>
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-      <div class="nav-bar">
-        <a href="../index.html">Home</a>
-        <a class="active" href="shelters.html">Shelters</a>
-        <a href="../Pets/pets.html">Pets</a>
-        <a href="../Sponsors/sponsors.html">Sponsors</a>
-        <a href="../Sponsorships/sponsorships.html">Sponsorships</a>
-      </div>
+        <button type="button" onclick="location.href='../index.html'">Home</button>
+        <button type="button" onclick="location.href='../Sponsorships/sponsorships.html'">Sponsorships</button>
+        <button type="button" onclick="location.href='../Sponsors/sponsors.html'">Sponsors</button>
+        <button type="button" onclick="location.href='../Pets/pets.html'">Pets</button>
         <br />
         <br />
-        <form action="http://web.engr.oregonstate.edu/~zhangluy/tools/class-content/form_tests/check_request.php" method="get">
+        <form>
             <fieldset>
                 <legend>Add Shelter to Shelters Database</legend>
                 <label>Name:
-                    <input type="text" name="text_input" size="30" maxlength="100">
+                    <input id="name" type="text" name="name" size="30" required>
                 </label>
                 <br />
                 <br />
                 <label>Street Address:
-                    <input type="text" name="text_input" size="30" maxlength="100">
+                    <input id="streetAddress" type="text" name="streetAddress" size="30"  required>
                 </label>
                 <br />
                 <br />
                 <label>City:
-                    <input type="text" name="text_input" size="30" maxlength="100">
+                    <input id="city" type="text" name="city" size="30"  required>
                 </label>
                 <br />
                 <br />
                 <label>State:
-                    <input type="text" name="text_input" size="30" maxlength="100">
+                    <input id="state" type="text" name="state" size="30" maxlength="100" required>
                 </label>
                 <br />
                 <br />
                 <label>Phone number:
-                    <input type="text" name="text_input" size="30" maxlength="100">
+                    <input id="phoneNumber" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phoneNumber" size="30" maxlength="100" required>
                 </label>
                 <br />
                 <br />
                 <label>Fax:
-                    <input type="text" name="text_input" size="30" maxlength="100">
+                    <input id="fax" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="fax" size="30" maxlength="100">
                 </label>
                 <br />
                 <br />
                 <label>Email:
-                    <input type="text" name="text_input" size="30" maxlength="100">
+                    <input id="email" type="email" name="email" size="30" maxlength="100">
                 </label>
                 <br />
                 <br />
@@ -60,7 +57,7 @@
                 <label for="false">False</label>
                 <br />
                 <br />
-                <input type="submit" value="Create Shelter" />
+                <button type="button" onclick="createShelter()">Create Shelter</button>
             </fieldset>
         </form>
 
@@ -84,36 +81,9 @@
                     <th>Delete</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>4/28/21</td>
-                    <td>Orange County Animal Shelter</td>
-                    <td>1630 Victory Road</td>
-                    <td>Tustin</td>
-                    <td>CA</td>
-                    <td>714-935-6848</td>
-                    <td>714-259-1094</td>
-                    <td>Foster@occr.ocgov.com</td>
-                    <td>True</td>
-                    <td><button class="editbtn">Edit</button></td>
-                    <td><button class="deletebtn">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>4/28/21</td>
-                    <td>Oregon Humane Society</td>
-                    <td>1067 NE Columnbia Blvd.</td>
-                    <td>Portland</td>
-                    <td>OR</td>
-                    <td>503-285-7722</td>
-                    <td>NULL</td>
-                    <td>NULL</td>
-                    <td>True</td>
-                    <td><button class="editbtn">Edit</button></td>
-                    <td><button class="deletebtn">Delete</button></td>
-                </tr>
+            <tbody id="sheltersTableBody"> 
             </tbody>
         </table>
+        <script src="scripts.js"></script>
 </body>
 </html>
