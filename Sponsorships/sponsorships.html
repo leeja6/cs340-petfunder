@@ -24,10 +24,10 @@
 <label for="createPets">Pet</label>
 <input type="radio" id="createShelters" name="createType" value="shelters" onclick="formCreateToggled(this)">
 <label for="createShelters">Shelter</label><br><br>
-<label for="sponsorID">Sponsor ID</label>
-<input type="text" id="sponsorID" name="sponsorID"><br><br>
-<label for="sponsoredID" id="sponsoredIDLabel">Pet Id</label>
-<input type="text" id="sponsoredID" name="sponsoredID"><br><br>
+<label for="sponsorID">Sponsor</label>
+<select name ="sponsorID" id="sponsorID"></select><br><br>
+<label for="sponsoredID" id="sponsoredIDLabel">Pet</label>
+<select id="sponsoredID" name="sponsoredID"></select><br><br>
 <label for="amount">Amount</label>
 <input type="number" id="amount" name="amount"><br><br>
 <label for="beginDate">Begin Date</label>
@@ -53,8 +53,8 @@
     <caption>Sponsorships Database</caption>
     <thead>
     <tr>
-        <th>sponsorID</th>
-        <th id="idHeaderValue">petID</th>
+        <th>sponsor</th>
+        <th id="idHeaderValue">pet</th>
         <th>amount</th>
         <th>beginDate</th>
         <th>endDate</th>

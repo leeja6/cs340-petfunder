@@ -1,14 +1,32 @@
+var sampleSponsors = [
+  "Jane Lee [1]",
+  "Kevin Lee [2]",
+  "Rebecca Starr [3]"
+]
+
+var samplePets = [
+  "Ratchet [1]",
+  "Clank [2]",
+  "Banjo [3]"
+]
+
+var sampleShelters = [
+  "Orange County Animal Shelter [1]",
+  "Oregon Humane Society [2]",
+  "Seattle Humane Society [3]",
+]
+
 var sampleShelterSponsorships = [
   {
-    "sponsorID": 1,
-    "shelterID": "1",
+    "sponsorID": "Jane Lee [1]",
+    "shelterID": "Orange County Animal Shelter [1]",
     "amount":"1000",
     "beginDate": "01-01-2020",
     "endDate": "01-01-2021"
   },
   {
-    "sponsorID": 2,
-    "shelterID": "2",
+    "sponsorID": "Kevin Lee [2]",
+    "shelterID": "Oregon Humane Society [2]",
     "amount":"2000",
     "beginDate": "02-01-2020",
     "endDate": "02-01-2021"
@@ -17,15 +35,15 @@ var sampleShelterSponsorships = [
 
 var samplePetSponsorships = [
   {
-    "sponsorID": 1,
-    "petID": "1",
+    "sponsorID": "Jane Lee [1]",
+    "petID": "Ratchet [1]",
     "amount":"100",
     "beginDate": "01-01-2020",
     "endDate": "01-01-2021"
   },
   {
-    "sponsorID": 2,
-    "petID": "2",
+    "sponsorID": "Kevin Lee [2]",
+    "petID": "Clank [2]",
     "amount":"200",
     "beginDate": "02-01-2020",
     "endDate": "02-01-2021"
@@ -38,6 +56,46 @@ var displayTypeToHeaderMapping = {
 };
 
 populateSponsorshipsTable(sampleShelterSponsorships,samplePetSponsorships);
+createSponsorSelect();
+createPetSelect();
+
+function createSponsorSelect() {
+  var sponsorSelect = document.getElementById("sponsorID");
+  for(element in sampleSponsors)
+  {
+    console.log(element);
+    var opt = document.createElement("option");
+    opt.innerHTML = sampleSponsors[element];
+    opt.value =sampleSponsors[element];
+    sponsorSelect.appendChild(opt);
+  }
+}
+
+function createPetSelect() {
+  var petSelect = document.getElementById("sponsoredID");
+  petSelect.innerHTML = "";
+  for(element in samplePets)
+  {
+    console.log(element);
+    var opt = document.createElement("option");
+    opt.innerHTML = samplePets[element];
+    opt.value =samplePets[element];
+    petSelect.appendChild(opt);
+  }
+}
+
+function createShelterSelect() {
+  var shelterSelect = document.getElementById("sponsoredID");
+  shelterSelect.innerHTML = "";
+  for(element in sampleShelters)
+  {
+    console.log(element);
+    var opt = document.createElement("option");
+    opt.innerHTML = sampleShelters[element];
+    opt.value =sampleShelters[element];
+    shelterSelect.appendChild(opt);
+  }
+}
 
 function createSponsorship() {
   var sponsorID = document.getElementById("sponsorID").value;
@@ -90,7 +148,9 @@ function clearTable() {
 function tableDisplayToggled(radioElement) {
   var selectedValue = radioElement.value;
   var headerIdElement = document.getElementById('idHeaderValue');
-  headerIdElement.innerHTML = displayTypeToHeaderMapping[selectedValue];
+  var displayValue = displayTypeToHeaderMapping[selectedValue];
+  displayValue = displayValue.substring(0, displayValue.length - 2);
+  headerIdElement.innerHTML = displayValue;
   populateSponsorshipsTable(sampleShelterSponsorships,samplePetSponsorships);
 }
 
@@ -98,7 +158,14 @@ function formCreateToggled(radioElement) {
   var selectedValue = radioElement.value;
   var sponsoredIDLabelElement = document.getElementById('sponsoredIDLabel');
   var displayValue = displayTypeToHeaderMapping[selectedValue].charAt(0).toUpperCase() + displayTypeToHeaderMapping[selectedValue].slice(1);
+  displayValue = displayValue.substring(0, displayValue.length - 2);
   sponsoredIDLabelElement.innerHTML = displayValue;
+  if (selectedValue == "shelters") {
+    createShelterSelect();
+  }
+  else {
+    createPetSelect();
+  }
 }
 
 function isFilterActive() {
