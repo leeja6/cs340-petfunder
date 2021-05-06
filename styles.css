@@ -25,3 +25,29 @@ tbody tr:nth-of-type(2n) {
     margin: 0 0 0 110px;
     padding: 0 0 0.5em 0;
   }
+
+  .nav-bar {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.nav-bar a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 10px 12px;
+  text-decoration: none;
+}
+
+/* Change the color of links on hover */
+.nav-bar a:hover {
+  background-color: LightGray;
+  color: black;
+}
+
+.nav-bar a.active {
+  background-color: DarkGray;
+  color: white;
+}

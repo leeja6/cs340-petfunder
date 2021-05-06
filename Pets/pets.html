@@ -6,13 +6,16 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <button type="button" onclick="location.href='../index.html'">Home</button>
-        <button type="button" onclick="location.href='../Sponsorships/sponsorships.html'">Sponsorships</button>
-        <button type="button" onclick="location.href='../Sponsors/sponsors.html'">Sponsors</button>
-        <button type="button" onclick="location.href='../Shelters/shelters.html'">Shelters</button>
-        <br />
-        <br />
-        <form action="http://web.engr.oregonstate.edu/~zhangluy/tools/class-content/form_tests/check_request.php" method="get">
+      <div class="nav-bar">
+        <a href="../index.html">Home</a>
+        <a href="../Shelters/shelters.html">Shelters</a>
+        <a class="active" href="pets.html">Pets</a>
+        <a href="../Sponsors/sponsors.html">Sponsors</a>
+        <a href="../Sponsorships/sponsorships.html">Sponsorships</a>
+      </div>
+      <br />
+      <br />
+      <form action="http://web.engr.oregonstate.edu/~zhangluy/tools/class-content/form_tests/check_request.php" method="get">
             <fieldset>
                 <legend>Add Pet to Pets Database</legend>
                 <label>Name:
@@ -62,7 +65,7 @@
         </form>
 
         <br>
-        
+
         <table>
             <caption>Pets Database</caption>
             <thead>
@@ -92,7 +95,7 @@
                     <td>princess</td>
                     <td>True</td>
                     <td>Pet toys</td>
-                    <td>1</td> 
+                    <td>1</td>
                     <td><button class="editbtn">Edit</button></td>
                     <td><button class="deletebtn">Delete</button></td>
                 </tr>
@@ -106,7 +109,7 @@
                     <td>derpy</td>
                     <td>False</td>
                     <td>Medicine</td>
-                    <td>2</td> 
+                    <td>2</td>
                     <td><button class="editbtn">Edit</button></td>
                     <td><button class="deletebtn">Delete</button></td>
                 </tr>
@@ -120,7 +123,7 @@
                     <td>sweetheart</td>
                     <td>True</td>
                     <td>Food</td>
-                    <td>1</td> 
+                    <td>1</td>
                     <td><button class="editbtn">Edit</button></td>
                     <td><button class="deletebtn">Delete</button></td>
                 </tr>

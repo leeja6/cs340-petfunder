@@ -11,3 +11,29 @@ caption {
   font-weight: bold;
   font-size:20px;
 }
+
+.nav-bar {
+overflow: hidden;
+display: flex;
+justify-content: center;
+text-align: center;
+}
+
+.nav-bar a {
+float: left;
+color: black;
+text-align: center;
+padding: 10px 12px;
+text-decoration: none;
+}
+
+/* Change the color of links on hover */
+.nav-bar a:hover {
+background-color: LightGray;
+color: black;
+}
+
+.nav-bar a.active {
+background-color: DarkGray;
+color: white;
+}
