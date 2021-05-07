@@ -36,10 +36,30 @@ var samplePets = [
       "shelterID": "Orange County Animal Shelter [1]"
     }
   ]
+
+  var sampleShelters = [
+    "Orange County Animal Shelter [1]",
+    "Oregon Humane Society [2]",
+    "Seattle Humane Society [3]",
+  ]
+
   populatePetTable(samplePets);
   function clearTable() {
     var tableBodyTag = document.getElementById("petsTableBody");
     tableBodyTag.innerHTML = "";
+  }
+  createShelterSelect();
+
+  function createShelterSelect() {
+    var shelterSelect = document.getElementById("shelterID");
+    for(element in sampleShelters)
+    {
+      console.log(element);
+      var opt = document.createElement("option");
+      opt.innerHTML = sampleShelters[element];
+      opt.value =sampleShelters[element];
+      shelterSelect.appendChild(opt);
+    }
   }
   
   function createPet() {
