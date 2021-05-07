@@ -42,11 +42,14 @@
 </fieldset>
 </form>
 <br>
+<div id="toggle">
 <label>Choose a display:</label>
 <input type="radio" id="displayPets" name="displayType" value="pets" onclick="tableDisplayToggled(this)" checked>
 <label for="pets">Pets</label>
 <input type="radio" id="displayShelters" name="displayType" value="shelters" onclick="tableDisplayToggled(this)">
 <label for="shelters">Shelters</label><br>
+</div>
+<br>
 <br>
 <label for="sponsorIDSearch">sponsorID Filter</label>
 <input type="text" id="sponsorIDSearch" name="sponsorIDSearch" oninput="resetTable()">

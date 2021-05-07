@@ -37,3 +37,10 @@ color: black;
 background-color: DarkGray;
 color: white;
 }
+
+#toggle {
+font-weight: bold;
+border-style: double;
+display: inline-block;
+padding: 5px;
+}
