@@ -98,7 +98,7 @@ var sampleShelters = [
     deleteButton.innerHTML = "Delete";
     deleteButton.addEventListener('click',function(event) {
       deleteShelter(row["shelterID"]);
-    })
+    }) 
     var deleteRow = document.createElement('td');
     deleteRow.appendChild(deleteButton);
     tr.appendChild(deleteRow);
