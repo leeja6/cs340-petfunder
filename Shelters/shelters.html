@@ -6,13 +6,17 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <button type="button" onclick="location.href='../index.html'">Home</button>
-        <button type="button" onclick="location.href='../Sponsorships/sponsorships.html'">Sponsorships</button>
-        <button type="button" onclick="location.href='../Sponsors/sponsors.html'">Sponsors</button>
-        <button type="button" onclick="location.href='../Pets/pets.html'">Pets</button>
-        <br />
-        <br />
+        <div class="nav-bar">
+          <a href="../index.html">Home</a>
+          <a class="active" href="../Shelters/shelters.html">Shelters</a>
+          <a href="../Pets/pets.html">Pets</a>
+          <a href="../Sponsors/sponsors.html">Sponsors</a>
+          <a href="sponsorships.html">Sponsorships</a>
+        </div>
+          <br />
+          <br />
         <form>
+            <br>
             <fieldset>
                 <legend>Add Shelter to Shelters Database</legend>
                 <label>Name:
@@ -61,7 +65,7 @@
             </fieldset>
         </form>
 
-       <br>
+        <br>
 
         <table>
             <caption>Shelters Database</caption>
@@ -85,5 +89,6 @@
             </tbody>
         </table>
         <script src="scripts.js"></script>
-</body>
+    </body>
 </html>
+
