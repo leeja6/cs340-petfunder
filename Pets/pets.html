@@ -6,13 +6,17 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <button type="button" onclick="location.href='../index.html'">Home</button>
-        <button type="button" onclick="location.href='../Sponsorships/sponsorships.html'">Sponsorships</button>
-        <button type="button" onclick="location.href='../Sponsors/sponsors.html'">Sponsors</button>
-        <button type="button" onclick="location.href='../Shelters/shelters.html'">Shelters</button>
-        <br />
-        <br />
+        <div class="nav-bar">
+          <a href="../index.html">Home</a>
+          <a href="../Shelters/shelters.html">Shelters</a>
+          <a class="active" href="../Pets/pets.html">Pets</a>
+          <a href="../Sponsors/sponsors.html">Sponsors</a>
+          <a href="sponsorships.html">Sponsorships</a>
+        </div>
+          <br />
+          <br />
         <form>
+            <br>
             <fieldset>
                 <legend>Add Pet to Pets Database</legend>
                 <label>Name:
@@ -52,9 +56,8 @@
                 </label>
                 <br />
                 <br />
-                <label>Shelter ID:
-                    <input id="shelterID" type="text" name="shelterID" size="30">
-                </label>
+                <label for="shelterID">Sponsor</label>
+                <select name ="shelterID" id="shelterID"></select>
                 <br />
                 <br />
                 <button type="button" onclick="createPet()">Create Pet</button>
@@ -85,5 +88,5 @@
             </tbody>
         </table>
         <script src="scripts.js"></script>
-</body>
+    </body>
 </html>
