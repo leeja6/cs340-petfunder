@@ -36,7 +36,7 @@ CREATE TABLE `pets` (
 `goal` varchar(255) NOT NULL,
 `shelterID` int(11),
 PRIMARY KEY (`petID`),
-FOREIGN KEY (`shelterID`) REFERENCES `shelters`(`shleterID`),
+FOREIGN KEY (`shelterID`) REFERENCES `shelters`(`shelterID`),
 UNIQUE KEY (`petID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
