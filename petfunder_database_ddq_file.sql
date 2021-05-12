@@ -101,17 +101,17 @@ INSERT INTO `Pets` (`petID`, `registrationDate`, `name`, `birthday`, `animal`, `
 INSERT INTO ShelterSponsorships (sponsorID, shelterID, amount, beginDate, endDate) VALUES
 (1, 7, 100, DATE '2021-05-11',  DATE '2022-05-11'),
 (2, 6, 200, DATE '2021-05-12',  DATE '2022-05-12'),
-(3, 5, 300, DATE '2021-05-13',  DATE '2022-05-13'),
+(3, 5, 300, DATE '2021-05-13',  NULL),
 (4, 4, 400, DATE '2021-05-13',  DATE '2022-05-13'),
 (5, 3, 500, DATE '2021-05-14',  DATE '2022-05-14'),
-(6, 2, 600, DATE '2021-05-15',  DATE '2022-05-15'),
+(6, 2, 600, DATE '2021-05-15',  NULL),
 (7, 1, 700, DATE '2021-05-16',  DATE '2022-05-16');
 
 INSERT INTO PetSponsorships (sponsorID, petID, amount, beginDate, endDate) VALUES
 (1, 7, 100, DATE '2021-05-11',  DATE '2022-05-11'),
 (2, 6, 200, DATE '2021-05-12',  DATE '2022-05-12'),
-(3, 5, 300, DATE '2021-05-13',  DATE '2022-05-13'),
+(3, 5, 300, DATE '2021-05-13',  NULL),
 (4, 4, 400, DATE '2021-05-13',  DATE '2022-05-13'),
-(5, 3, 500, DATE '2021-05-14',  DATE '2022-05-14'),
+(5, 3, 500, DATE '2021-05-14',  NULL),
 (6, 2, 600, DATE '2021-05-15',  DATE '2022-05-15'),
 (7, 1, 700, DATE '2021-05-16',  DATE '2022-05-16')
