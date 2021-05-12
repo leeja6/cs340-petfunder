@@ -13,7 +13,7 @@ DELETE FROM Shelters WHERE shelterID = :shelterID_from_delete_button
 SELECT name, shelterID FROM Shelters;
 
 -- get all Pet info to populate the Pets table
-SELECT pets.*, shelters.name FROM Pets
+SELECT Pets.*, Shelters.name FROM Pets
 LEFT JOIN Shelters ON Pets.shelterID = Shelters.shelterID;
 
 -- update a pet's data based on submission of the Edit Pet form 
@@ -21,6 +21,14 @@ UPDATE Pets SET name = :nameInput, birthday = :birthdayInput, animal = :animalIn
 
 -- delete a pet
 DELETE FROM Pets WHERE petID = :petID_from_delete_button
+
+--Sponsorships
+--get all pet data to populate pet dropdown
+SELECT petID, name 
+FROM Pets
+
+-- get all columns from sponsors to populate the display for sponsors
+SELECT * from Sponsors
 
 -- get all columns from pet sponsorships to populate the display for pet sponsorships
 SELECT Sponsors.sponsorID, firstName, lastName, Pets.petID, name, lastName, amount, beginDate, endDate from PetSponsorships
@@ -60,9 +68,8 @@ UPDATE ShelterSponsorships SET amount = :amountInput, beginDate = :beginDateInpu
 -- denote the variables that will have data from the backend programming language
 DELETE FROM ShelterSponsorships WHERE sponsorID = :sponsorIDFromDelete and shelterID = :shelterIDFromDelete
 
-
--- get all columns from sponsors to populate the display for sponsors
-SELECT * from Sponsors
+-- get sponsor data for sponsorship dropdown
+SELECT firstName, lastName, sponsorID from Sponsors
 
 -- add a new sponsor sponsorship with colon : character being used to 
 -- denote the variables that will have data from the backend programming language
