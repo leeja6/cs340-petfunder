@@ -2,11 +2,15 @@
 -- get all Shelter info to populate the Shelters table
 SELECT * FROM Shelters;
 
+-- add a new shelter with colon : character being used to 
+-- denote the variables that will have data from the backend programming language
+INSERT INTO Shelters (name, streetAddress, city, state, phoneNumber, fax, email, sponsorable) VALUES (:nameInput, :streetAddressInput, :cityInput, :stateInput, :phoneNumberInput, :faxInput, :emailInput, :sponsorableInput);
+
 -- update a shelter's data based on submission of the Edit Shelter form 
 UPDATE Shelters SET name = :nameInput, streetAddress = :streetAddressInput, city = :cityInput, state = :stateInput, phoneNumber = :phoneNumberInput, fax = :faxInput, email = :emailInput, spomsorable = :sponsorableInput WHERE shelterID = :shelterID_from_the_edit_form;
 
 -- delete a shelter
-DELETE FROM Shelters WHERE shelterID = :shelterID_from_delete_button
+DELETE FROM Shelters WHERE shelterID = :shelterID_from_delete_button;
 
 -- Pets
 -- get all Shelter names and IDs to populate the shelter dropdown
@@ -16,11 +20,15 @@ SELECT name, shelterID FROM Shelters;
 SELECT Pets.*, Shelters.name FROM Pets
 LEFT JOIN Shelters ON Pets.shelterID = Shelters.shelterID;
 
+-- add a new pet with colon : character being used to 
+-- denote the variables that will have data from the backend programming language
+INSERT INTO Pets (name, birthday, animal, breed, personality, adoptable, goal, shelterID) VALUES (:nameInput, :birthdayInput, :animalInput, :breedInput, :personalityInput, :adoptableInput, :goalInput, :shelterIDFromDropDownInput);
+
 -- update a pet's data based on submission of the Edit Pet form 
-UPDATE Pets SET name = :nameInput, birthday = :birthdayInput, animal = :animalInput, breed = :breedInput, personality = :personalityInput, adoptable = :adoptableInput, goald = :goalInput, shelterID = :shelterIDInput WHERE petID = :petID_from_the_edit_form;
+UPDATE Pets SET name = :nameInput, birthday = :birthdayInput, animal = :animalInput, breed = :breedInput, personality = :personalityInput, adoptable = :adoptableInput, goal = :goalInput, shelterID = :shelterIDInput WHERE petID = :petID_from_the_edit_form;
 
 -- delete a pet
-DELETE FROM Pets WHERE petID = :petID_from_delete_button
+DELETE FROM Pets WHERE petID = :petID_from_delete_button;
 
 --Sponsorships
 --get all pet data to populate pet dropdown
@@ -31,7 +39,7 @@ FROM Pets
 SELECT * from Sponsors
 
 -- get all columns from pet sponsorships to populate the display for pet sponsorships
-SELECT Sponsors.sponsorID, firstName, lastName, Pets.petID, name, lastName, amount, beginDate, endDate from PetSponsorships
+SELECT Sponsors.sponsorID, firstName, lastName, Pets.petID, name, amount, beginDate, endDate from PetSponsorships
 LEFT JOIN Sponsors ON
 Sponsors.sponsorID = PetSponsorships.sponsorID
 LEFT JOIN Pets ON
@@ -50,7 +58,7 @@ UPDATE PetSponsorships SET amount = :amountInput, beginDate = :beginDateInput, e
 DELETE FROM PetSponsorships WHERE sponsorID = :sponsorIDFromDelete and petID = :petIDFromDelete
 
 -- get all columns from shelter sponsorships to populate the display for shelter sponsorships
-SELECT Sponsors.sponsorID, firstName, lastName, Shelters.shelterID, name, lastName, amount, beginDate, endDate from ShelterSponsorships
+SELECT Sponsors.sponsorID, firstName, lastName, Shelters.shelterID, name, amount, beginDate, endDate from ShelterSponsorships
 LEFT JOIN Sponsors ON
 Sponsors.sponsorID = ShelterSponsorships.sponsorID
 LEFT JOIN Shelters ON
