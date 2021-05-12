@@ -15,8 +15,7 @@ CREATE TABLE `Shelters` (
 `fax` varchar(255),
 `email` varchar(255),
 `sponsorable` boolean NOT NULL,
-PRIMARY KEY (`shelterID`),
-UNIQUE KEY (`shelterID`)
+PRIMARY KEY (`shelterID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -40,8 +39,7 @@ CREATE TABLE `Pets` (
 `goal` varchar(255) NOT NULL,
 `shelterID` int(11),
 PRIMARY KEY (`petID`),
-FOREIGN KEY (`shelterID`) REFERENCES `Shelters`(`shelterID`),
-UNIQUE KEY (`petID`)
+FOREIGN KEY (`shelterID`) REFERENCES `Shelters`(`shelterID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE PetSponsorships (
@@ -49,7 +47,7 @@ CREATE TABLE PetSponsorships (
     petID int(11) NOT NULL,
     amount int(11) NOT NULL,
 	beginDate date NOT NULL,
-	endDate date NOT NULL,
+	endDate date,
 	PRIMARY KEY (sponsorID, petID),
 	FOREIGN KEY (sponsorID) REFERENCES Sponsors(sponsorID),
 	FOREIGN KEY (petID) REFERENCES Pets(petID)
@@ -60,7 +58,7 @@ CREATE TABLE ShelterSponsorships (
     shelterID int(11) NOT NULL,
     amount int(11) NOT NULL,
 	beginDate date NOT NULL,
-	endDate date NOT NULL,
+	endDate date,
 	PRIMARY KEY (sponsorID, shelterID),
 	FOREIGN KEY (sponsorID) REFERENCES Sponsors(sponsorID),
 	FOREIGN KEY (shelterID) REFERENCES Shelters(shelterID)
