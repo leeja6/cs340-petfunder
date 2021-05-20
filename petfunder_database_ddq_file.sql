@@ -51,7 +51,7 @@ CREATE TABLE PetSponsorships (
 	PRIMARY KEY (sponsorID, petID),
 	FOREIGN KEY (sponsorID) REFERENCES Sponsors(sponsorID),
 	FOREIGN KEY (petID) REFERENCES Pets(petID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE ShelterSponsorships (
     sponsorID int(11) NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE ShelterSponsorships (
 	PRIMARY KEY (sponsorID, shelterID),
 	FOREIGN KEY (sponsorID) REFERENCES Sponsors(sponsorID),
 	FOREIGN KEY (shelterID) REFERENCES Shelters(shelterID)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 
