@@ -55,15 +55,129 @@ var displayTypeToHeaderMapping = {
   "shelters":"shelterID"
 };
 
-populateSponsorshipsTable(sampleShelterSponsorships,samplePetSponsorships);
-createSponsorSelect();
-createPetSelect();
+var apiBaseUrl = 'http://localhost:7371';
+//populateSponsorshipsTable(sampleShelterSponsorships,samplePetSponsorships);
+getPetSponsorships();
+getShelterSponsorships();
+getSponsorData();
+getPetData();
+getShelterData();
+
+function getValueWithinBrackes(string) {
+  var idMatch = string.match(/\[(.*?)\]/);
+  return idMatch[1];
+}
+
+function petSponsorshipsReceived() {
+  var response = JSON.parse(this.responseText);
+  var petSponsorshipsList = [];
+  for(var i = 0; i < response.length; i++ ) {
+    var petSponsorshipData = response[i];
+    var newSponsorship = {
+      sponsorID: petSponsorshipData.firstName + ' ' + petSponsorshipData.lastName + ' [' + petSponsorshipData.sponsorID + ']',
+      petID: petSponsorshipData.name + ' [' + petSponsorshipData.petID + ']',
+      amount: petSponsorshipData.amount,
+      beginDate: petSponsorshipData.beginDate,
+      endDate: petSponsorshipData.endDate
+    }
+    petSponsorshipsList.push(newSponsorship);
+  }
+  samplePetSponsorships = petSponsorshipsList;
+  populateSponsorshipsTable(sampleShelterSponsorships,samplePetSponsorships);
+}
+
+function getPetSponsorships() {
+  var req = new XMLHttpRequest();
+  req.onload = petSponsorshipsReceived;
+  req.open("get", apiBaseUrl + "/petSponsorships", true);
+  req.send();
+}
+
+function shelterSponsorshipsReceived() {
+  var response = JSON.parse(this.responseText);
+  var shelterSponsorshipsList = [];
+  for(var i = 0; i < response.length; i++ ) {
+    var shelterSponsorshipData = response[i];
+    var newSponsorship = {
+      sponsorID: shelterSponsorshipData.firstName + ' ' + shelterSponsorshipData.lastName + ' [' + shelterSponsorshipData.sponsorID + ']',
+      shelterID: shelterSponsorshipData.name + ' [' + shelterSponsorshipData.shelterID   + ']',
+      amount: shelterSponsorshipData.amount,
+      beginDate: shelterSponsorshipData.beginDate,
+      endDate: shelterSponsorshipData.endDate
+    }
+    shelterSponsorshipsList.push(newSponsorship);
+  }
+  sampleShelterSponsorships = shelterSponsorshipsList;
+  populateSponsorshipsTable(sampleShelterSponsorships,samplePetSponsorships);
+}
+
+function getShelterSponsorships() {
+  var req = new XMLHttpRequest();
+  req.onload = shelterSponsorshipsReceived;
+  req.open("get", apiBaseUrl + "/shelterSponsorships", true);
+  req.send();
+}
+
+function sponsorsRecieved() {
+  console.log(this.responseText);
+  var response = JSON.parse(this.responseText);
+  var sponsorsList = [];
+  for(var i = 0; i < response.length; i++ ) {
+    var sponsorData = response[i];
+    sponsorsList.push(sponsorData.firstName + ' ' + sponsorData.lastName + ' [' + sponsorData.sponsorID + ']');
+  }
+  sampleSponsors = sponsorsList;
+  createSponsorSelect();
+}
+
+function getSponsorData() {
+  var req = new XMLHttpRequest();
+  req.onload = sponsorsRecieved;
+  req.open("get", apiBaseUrl + "/sponsors?short=true", true);
+  req.send();
+}
+
+function petsReceived() {
+  console.log(this.responseText);
+  var response = JSON.parse(this.responseText);
+  var petsList = [];
+  for(var i = 0; i < response.length; i++ ) {
+    var petData = response[i];
+    petsList.push(petData.name + ' [' + petData.petID + ']');
+  }
+  samplePets = petsList;
+  createPetSelect();
+}
+
+function getPetData() {
+  var req = new XMLHttpRequest();
+  req.onload = petsReceived;
+  req.open("get", apiBaseUrl + "/pets?short=true", true);
+  req.send();
+}
+
+function sheltersRecieved() {
+  console.log(this.responseText);
+  var response = JSON.parse(this.responseText);
+  var sheltersList = [];
+  for(var i = 0; i < response.length; i++ ) {
+    var shelterData = response[i];
+    sheltersList.push(shelterData.name + ' [' + shelterData.shelterID + ']');
+  }
+  sampleShelters = sheltersList;
+}
+
+function getShelterData() {
+  var req = new XMLHttpRequest();
+  req.onload = sheltersRecieved;
+  req.open("get", apiBaseUrl + "/shelters?short=true", true);
+  req.send();
+}
 
 function createSponsorSelect() {
   var sponsorSelect = document.getElementById("sponsorID");
   for(element in sampleSponsors)
   {
-    console.log(element);
     var opt = document.createElement("option");
     opt.innerHTML = sampleSponsors[element];
     opt.value =sampleSponsors[element];
@@ -74,9 +188,9 @@ function createSponsorSelect() {
 function createPetSelect() {
   var petSelect = document.getElementById("sponsoredID");
   petSelect.innerHTML = "";
+  console.log(samplePets);
   for(element in samplePets)
   {
-    console.log(element);
     var opt = document.createElement("option");
     opt.innerHTML = samplePets[element];
     opt.value =samplePets[element];
@@ -87,9 +201,9 @@ function createPetSelect() {
 function createShelterSelect() {
   var shelterSelect = document.getElementById("sponsoredID");
   shelterSelect.innerHTML = "";
+  console.log(sampleShelters);
   for(element in sampleShelters)
   {
-    console.log(element);
     var opt = document.createElement("option");
     opt.innerHTML = sampleShelters[element];
     opt.value =sampleShelters[element];
@@ -97,9 +211,18 @@ function createShelterSelect() {
   }
 }
 
+function onSponsorshipCreated() {
+  if (this.responseURL.includes('pet')) {
+    getPetSponsorships();
+  }
+  else {
+    getShelterSponsorships();
+  }
+}
+
 function createSponsorship() {
-  var sponsorID = document.getElementById("sponsorID").value;
-  var sponsoredID = document.getElementById("sponsoredID").value;
+  var sponsorID = getValueWithinBrackes(document.getElementById("sponsorID").value);
+  var sponsoredID = getValueWithinBrackes(document.getElementById("sponsoredID").value);
   var amount = document.getElementById("amount").value;
   var beginDate = document.getElementById("beginDate").value;
   var endDate = document.getElementById("endDate").value;
@@ -120,13 +243,15 @@ function createSponsorship() {
   };
   newSponsorship[displayTypeToHeaderMapping[createType]] = sponsoredID;
 
+  var url = apiBaseUrl + '/shelterSponsorships';
   if (createType == "pets") {
-    samplePetSponsorships.push(newSponsorship);
+    url = apiBaseUrl + '/petSponsorships';
   }
-  else {
-    sampleShelterSponsorships.push(newSponsorship);
-  }
-  populateSponsorshipsTable(sampleShelterSponsorships, samplePetSponsorships);
+  var req = new XMLHttpRequest();
+  req.onload = onSponsorshipCreated;
+  req.open("post", url, true);
+  req.setRequestHeader('Content-type', 'application/json');
+  req.send(JSON.stringify(newSponsorship));
 }
 
 function getCurrentDisplayType() {
@@ -180,8 +305,8 @@ function populateSponsorshipsTable(shelterSponsorships, petSponsorships) {
   var filteredSponsorships = [];
   if (isFilterActive()) {
     for (var i = 0; i < currentDisplayTypeSponsorships.length; i++) {
-      var a = currentDisplayTypeSponsorships[i]["sponsorID"];
-      if (currentDisplayTypeSponsorships[i]["sponsorID"] == sponsorIDFilter) {
+      var sponsorField = currentDisplayTypeSponsorships[i]["sponsorID"];
+      if (getValueWithinBrackes(sponsorField) == sponsorIDFilter) {
         filteredSponsorships.push(currentDisplayTypeSponsorships[i]);
       }
     }

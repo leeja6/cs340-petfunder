@@ -12,10 +12,38 @@ var sampleSponsors = [
     "anonymous": false
   },
 ]
-populateSponsorTable(sampleSponsors);
+
+function sponsorsRecieved() {
+  console.log(this.responseText);
+  sampleSponsors = JSON.parse(this.responseText);
+  for(var i = 0; i < sampleSponsors.length; i++ ) {
+    var sponsorData = sampleSponsors[i];
+    if (sponsorData.anonymous == 1) {
+      sponsorData.anonymous = true;
+    }
+    else {
+      sponsorData.anonymous = false;
+    }
+  }
+  populateSponsorTable(sampleSponsors);
+}
+
+function getSponsorsAndPopulateTable() {
+  var req = new XMLHttpRequest();
+  req.onload = sponsorsRecieved;
+  req.open("get", "http://localhost:7371/sponsors", true);
+  req.send();
+}
+
+getSponsorsAndPopulateTable();
+//populateSponsorTable(sampleSponsors);
 function clearTable() {
   var tableBodyTag = document.getElementById("sponsorsTableBody");
   tableBodyTag.innerHTML = "";
+}
+
+function onSponsorCreated() {
+  getSponsorsAndPopulateTable();
 }
 
 function createSponsor() {
@@ -34,15 +62,15 @@ function createSponsor() {
       break;
     }
   }
-  var newSponsor = {
-    "sponsorID": sampleSponsors.length + 1,
-    "firstName": firstName,
-    "lastName": lastName,
-    "anonymous": isAnonymous
-  };
-  sampleSponsors.push(newSponsor);
-  var tableBodyTag = document.getElementById("sponsorsTableBody");
-  addRowToSponsorTable(newSponsor, tableBodyTag);
+  var req = new XMLHttpRequest();
+  req.onload = onSponsorCreated;
+  req.open("post", "http://localhost:7371/sponsors", true);
+  req.setRequestHeader('Content-type', 'application/json');
+  req.send(JSON.stringify({
+    firstName: firstName,
+    lastName: lastName,
+    anonymous: isAnonymous ? 1 : 0
+  }));
 }
 
 function populateSponsorTable(sponsors) {
