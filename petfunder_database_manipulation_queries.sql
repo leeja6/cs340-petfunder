@@ -45,6 +45,14 @@ Sponsors.sponsorID = PetSponsorships.sponsorID
 LEFT JOIN Pets ON
 Pets.petID = PetSponsorships.petID
 
+-- get all columns from pet sponsorships filtered to the ID entered by User to populate the display for pet sponsorships
+SELECT Sponsors.sponsorID, firstName, lastName, Pets.petID, name, amount, beginDate, endDate from PetSponsorships
+LEFT JOIN Sponsors ON
+Sponsors.sponsorID = PetSponsorships.sponsorID
+LEFT JOIN Pets ON
+Pets.petID = PetSponsorships.petID
+WHERE Sponsors.sponsorID = :sponsorIDFilterInput
+
 -- add a new pet sponsorship with colon : character being used to 
 -- denote the variables that will have data from the backend programming language
 INSERT INTO PetSponsorships (sponsorID, petID, amount, beginDate, endDate) VALUES (:sponsorIDFromDropdownInput, :petIDFromDropdownInput, :amountInput, :beginDateInput, :endDateInput)
@@ -63,6 +71,14 @@ LEFT JOIN Sponsors ON
 Sponsors.sponsorID = ShelterSponsorships.sponsorID
 LEFT JOIN Shelters ON
 Shelters.shelterID = ShelterSponsorships.shelterID
+
+-- get all columns from shelter sponsorships filtered to the ID entered by User to populate the display for shelter sponsorships
+SELECT Sponsors.sponsorID, firstName, lastName, Shelters.shelterID, name, amount, beginDate, endDate from ShelterSponsorships
+LEFT JOIN Sponsors ON
+Sponsors.sponsorID = ShelterSponsorships.sponsorID
+LEFT JOIN Shelters ON
+Shelters.shelterID = ShelterSponsorships.shelterID
+WHERE Sponsors.sponsorID = :sponsorIDFilterInput
 
 -- add a new shelter sponsorship with colon : character being used to 
 -- denote the variables that will have data from the backend programming language
