@@ -24,10 +24,37 @@ var sampleShelters = [
       "sponsorable": false,
     }
   ]
-  populateShelterTable(sampleShelters);
+
+  function sheltersRecieved() {
+    console.log(this.responseText);
+    sampleShelters = JSON.parse(this.responseText);
+    for(var i = 0; i < sampleShelters.length; i++ ) {
+      var shelterData = sampleShelters[i];
+      if (shelterData.sponsorable == 1) {
+        shelterData.sponsorable = true;
+      }
+      else {
+        shelterData.sponsorable = false;
+      }
+    }
+    populateShelterTable(sampleShelters);
+  }
+  
+  function getSheltersAndPopulateTable() {
+    var req = new XMLHttpRequest();
+    req.onload = sheltersRecieved;
+    req.open("get", "http://localhost:7371/shelters", true);
+    req.send();
+  }
+  
+  getSheltersAndPopulateTable();
   function clearTable() {
     var tableBodyTag = document.getElementById("sheltersTableBody");
     tableBodyTag.innerHTML = "";
+  }
+  
+  function onShelterCreated() {
+    getSheltersAndPopulateTable();
   }
   
   function createShelter() {
@@ -57,21 +84,22 @@ var sampleShelters = [
         break;
       }
     }
-    var newShelter = {
-      "shelterID": sampleShelters.length + 1,
-      "registrationDate": registrationDate,
-      "name": name,
-      "streetAddress": streetAddress,
-      "city": city,
-      "state": state,
-      "phoneNumber": phoneNumber,
-      "fax": fax,
-      "email": email,
-      "sponsorable": isSponsorable
-    };
-    sampleShelters.push(newShelter);
-    var tableBodyTag = document.getElementById("sheltersTableBody");
-    addRowToShelterTable(newShelter, tableBodyTag);
+
+    var req = new XMLHttpRequest();
+    req.onload = onShelterCreated;
+    req.open("post", "http://localhost:7371/shelters", true);
+    req.setRequestHeader('Content-type', 'application/json');
+    req.send(JSON.stringify({
+      registrationDate: registrationDate,
+      name: name,
+      streetAddress: streetAddress,
+      city: city,
+      state: state,
+      phoneNumber: phoneNumber,
+      fax: fax,
+      email: email,
+      sponsorable: isSponsorable ? 1 : 0
+    }));
   }
   
   function populateShelterTable(shelters) {
