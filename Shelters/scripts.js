@@ -39,24 +39,24 @@ var sampleShelters = [
     }
     populateShelterTable(sampleShelters);
   }
-  
+
   function getSheltersAndPopulateTable() {
     var req = new XMLHttpRequest();
     req.onload = sheltersRecieved;
     req.open("get", "http://localhost:7371/shelters", true);
     req.send();
   }
-  
+
   getSheltersAndPopulateTable();
   function clearTable() {
     var tableBodyTag = document.getElementById("sheltersTableBody");
     tableBodyTag.innerHTML = "";
   }
-  
+
   function onShelterCreated() {
     getSheltersAndPopulateTable();
   }
-  
+
   function createShelter() {
     // Date code from: https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
     var today = new Date();
@@ -72,7 +72,7 @@ var sampleShelters = [
     var fax = document.getElementById("fax").value;
     var email = document.getElementById("email").value;
     var radioOptions = document.getElementsByName('sponsorable');
-    
+
     for (var i = 0; i <  radioOptions.length; i++) {
       if (radioOptions[i].checked) {
         if (radioOptions[i].value == 'yes') {
@@ -101,7 +101,7 @@ var sampleShelters = [
       sponsorable: isSponsorable ? 1 : 0
     }));
   }
-  
+
   function populateShelterTable(shelters) {
     clearTable();
     var tableBodyTag = document.getElementById("sheltersTableBody");
@@ -109,12 +109,17 @@ var sampleShelters = [
       addRowToShelterTable(shelters[i], tableBodyTag);
     }
   }
-  
+
   function addRowToShelterTable(row, bodyElement) {
     var tr = document.createElement('tr');
     for (var dataColumn in row) {
       var td = document.createElement('td');
-        td.innerHTML = row[dataColumn];
+        if (dataColumn=="registrationDate") {
+          td.innerHTML = row[dataColumn].split("T")[0]
+        }
+        else {
+          td.innerHTML = row[dataColumn];
+        }
       tr.appendChild(td);
     }
     var editButton = document.createElement('button');
@@ -126,13 +131,13 @@ var sampleShelters = [
     deleteButton.innerHTML = "Delete";
     deleteButton.addEventListener('click',function(event) {
       deleteShelter(row["shelterID"]);
-    }) 
+    })
     var deleteRow = document.createElement('td');
     deleteRow.appendChild(deleteButton);
     tr.appendChild(deleteRow);
     bodyElement.appendChild(tr);
   }
-  
+
   function deleteShelter(shelterID) {
     for (var i = 0; i < sampleShelters.length; i++) {
       var shelterIDMatch = sampleShelters[i]["shelterID"]==shelterID;

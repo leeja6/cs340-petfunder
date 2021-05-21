@@ -61,7 +61,7 @@ var samplePets = [
       shelterSelect.appendChild(opt);
     }
   }
-  
+
   function createPet() {
     // Date code from: https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
     var today = new Date();
@@ -78,7 +78,7 @@ var samplePets = [
     var radioOptions = document.getElementsByName('adoptable');
     var goal = document.getElementById("goal").value;
     var shelterID = document.getElementById("shelterID").value;
-    
+
     for (var i = 0; i <  radioOptions.length; i++) {
       if (radioOptions[i].checked) {
         if (radioOptions[i].value == 'yes') {
@@ -106,7 +106,7 @@ var samplePets = [
     var tableBodyTag = document.getElementById("petsTableBody");
     addRowToPetTable(newPet, tableBodyTag);
   }
-  
+
   function populatePetTable(pets) {
     clearTable();
     var tableBodyTag = document.getElementById("petsTableBody");
@@ -114,7 +114,7 @@ var samplePets = [
       addRowToPetTable(pets[i], tableBodyTag);
     }
   }
-  
+
   function addRowToPetTable(row, bodyElement) {
     var tr = document.createElement('tr');
     for (var dataColumn in row) {
@@ -137,7 +137,7 @@ var samplePets = [
     tr.appendChild(deleteRow);
     bodyElement.appendChild(tr);
   }
-  
+
   function deletePet(petID) {
     for (var i = 0; i < samplePets.length; i++) {
       var petIDMatch = samplePets[i]["petID"]==petID;

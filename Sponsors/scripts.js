@@ -13,6 +13,8 @@ var sampleSponsors = [
   },
 ]
 
+var apiBaseUrl = 'http://localhost:7371';
+
 function sponsorsRecieved() {
   console.log(this.responseText);
   sampleSponsors = JSON.parse(this.responseText);
@@ -31,7 +33,7 @@ function sponsorsRecieved() {
 function getSponsorsAndPopulateTable() {
   var req = new XMLHttpRequest();
   req.onload = sponsorsRecieved;
-  req.open("get", "http://localhost:7371/sponsors", true);
+  req.open("get", apiBaseUrl + '/sponsors', true);
   req.send();
 }
 
@@ -64,7 +66,7 @@ function createSponsor() {
   }
   var req = new XMLHttpRequest();
   req.onload = onSponsorCreated;
-  req.open("post", "http://localhost:7371/sponsors", true);
+  req.open("post", apiBaseUrl + '/sponsors', true);
   req.setRequestHeader('Content-type', 'application/json');
   req.send(JSON.stringify({
     firstName: firstName,

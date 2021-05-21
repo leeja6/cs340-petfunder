@@ -56,7 +56,6 @@ var displayTypeToHeaderMapping = {
 };
 
 var apiBaseUrl = 'http://localhost:7371';
-//populateSponsorshipsTable(sampleShelterSponsorships,samplePetSponsorships);
 getPetSponsorships();
 getShelterSponsorships();
 getSponsorData();
@@ -77,8 +76,8 @@ function petSponsorshipsReceived() {
       sponsorID: petSponsorshipData.firstName + ' ' + petSponsorshipData.lastName + ' [' + petSponsorshipData.sponsorID + ']',
       petID: petSponsorshipData.name + ' [' + petSponsorshipData.petID + ']',
       amount: petSponsorshipData.amount,
-      beginDate: petSponsorshipData.beginDate,
-      endDate: petSponsorshipData.endDate
+      beginDate: petSponsorshipData.beginDate.split("T")[0],
+      endDate: (petSponsorshipData.endDate ? petSponsorshipData.endDate.split("T")[0] : null )
     }
     petSponsorshipsList.push(newSponsorship);
   }
@@ -102,8 +101,8 @@ function shelterSponsorshipsReceived() {
       sponsorID: shelterSponsorshipData.firstName + ' ' + shelterSponsorshipData.lastName + ' [' + shelterSponsorshipData.sponsorID + ']',
       shelterID: shelterSponsorshipData.name + ' [' + shelterSponsorshipData.shelterID   + ']',
       amount: shelterSponsorshipData.amount,
-      beginDate: shelterSponsorshipData.beginDate,
-      endDate: shelterSponsorshipData.endDate
+      beginDate: shelterSponsorshipData.beginDate.split("T")[0],
+      endDate: shelterSponsorshipData.endDate ? shelterSponsorshipData.endDate.split("T")[0] : null
     }
     shelterSponsorshipsList.push(newSponsorship);
   }
@@ -275,6 +274,7 @@ function tableDisplayToggled(radioElement) {
   var headerIdElement = document.getElementById('idHeaderValue');
   var displayValue = displayTypeToHeaderMapping[selectedValue];
   displayValue = displayValue.substring(0, displayValue.length - 2);
+  displayValue = displayValue.charAt(0).toUpperCase() + displayValue.slice(1)
   headerIdElement.innerHTML = displayValue;
   populateSponsorshipsTable(sampleShelterSponsorships,samplePetSponsorships);
 }
