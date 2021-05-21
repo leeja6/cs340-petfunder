@@ -64,11 +64,7 @@ var samplePets = [
 
   function createPet() {
     // Date code from: https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0');
-    var yyyy = today.getFullYear();
-    registrationDate = mm + '/' + dd + '/' + yyyy;
+    var registrationDate = new Date().toISOString();
     var name = document.getElementById("name").value;
     var birthday = document.getElementById("birthday").value;
     var displayBirthday = birthday.substring(5, 7) + '/' + birthday.substring(8, 10) + '/' + birthday.substring(0, 4);
@@ -119,7 +115,12 @@ var samplePets = [
     var tr = document.createElement('tr');
     for (var dataColumn in row) {
       var td = document.createElement('td');
+      if (dataColumn=="registrationDate") {
+        td.innerHTML = row[dataColumn].split("T")[0]
+      }
+      else {
         td.innerHTML = row[dataColumn];
+      }
       tr.appendChild(td);
     }
     var editButton = document.createElement('button');
