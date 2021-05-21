@@ -22,7 +22,8 @@ var pool = mysql.createPool({
 module.exports.pool = pool;
 
 app.get('/pets', function(req,res,next) {
-  var selectQuery = 'SELECT pets.*, shelters.name FROM pets LEFT JOIN shelters ON pets.shelterID = shelters.shelterID';
+  var selectQuery = 'SELECT petID, registrationDate, name, birthday, animal, breed, personality, adoptable, goal, shelterID FROM Pets';
+  //'SELECT petID, Pets.registrationDate, Pets.name, birthday, animal, breed, personality, adoptable, goal, Pets.shelterID,  Shelters.name FROM Pets LEFT JOIN Shelters ON Pets.shelterID = Shelters.shelterID';
   if (req.query['short'] == 'true') {
     selectQuery = 'SELECT petID, name FROM Pets';
   }
@@ -36,7 +37,7 @@ app.get('/pets', function(req,res,next) {
 });
 
 app.post('/pets', function(req,res,next) {
-  pool.query('INSERT INTO Pets (registrationDate, name, birthday, animal, breed, personality, adoptable, goal, shelterID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [req.body.registrationDate, req.body.nameInput, req.body.birthday, req.body.animal, req.body.breedInput, req.body.personalityInput, req.body.adoptableInput, req.body.goalInput, req.body.shelterID], function(err, result) {
+  pool.query('INSERT INTO Pets (registrationDate, name, birthday, animal, breed, personality, adoptable, goal, shelterID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [req.body.registrationDate, req.body.name, req.body.birthday, req.body.animal, req.body.breed, req.body.personality, req.body.adoptable, req.body.goal, req.body.shelterID], function(err, result) {
     if (err) {
       next(err);
       return;
