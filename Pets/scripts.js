@@ -43,11 +43,43 @@ var samplePets = [
     "Seattle Humane Society [3]",
   ]
 
-  populatePetTable(samplePets);
+  function getValueWithinBrackes(string) {
+    var idMatch = string.match(/\[(.*?)\]/);
+    return idMatch[1];
+  }
+
+  function petsRecieved() {
+    console.log(this.responseText);
+    samplePets = JSON.parse(this.responseText);
+    for(var i = 0; i < samplePets.length; i++ ) {
+      var petData = samplePets[i];
+      if (petData.adoptable == 1) {
+        petData.adoptable = true;
+      }
+      else {
+        petData.adoptable = false;
+      }
+    }
+    populatePetTable(samplePets);
+  }
+
+  function getPetsAndPopulateTable() {
+    var req = new XMLHttpRequest();
+    req.onload = petsRecieved;
+    req.open("get", "http://localhost:7371/pets", true);
+    req.send();
+  }
+
+  getPetsAndPopulateTable();
   function clearTable() {
     var tableBodyTag = document.getElementById("petsTableBody");
     tableBodyTag.innerHTML = "";
   }
+
+  function onPetCreated() {
+    getPetsAndPopulateTable();
+  }
+
   createShelterSelect();
 
   function createShelterSelect() {
@@ -67,14 +99,11 @@ var samplePets = [
     var registrationDate = new Date().toISOString();
     var name = document.getElementById("name").value;
     var birthday = document.getElementById("birthday").value;
-    var displayBirthday = birthday.substring(5, 7) + '/' + birthday.substring(8, 10) + '/' + birthday.substring(0, 4);
     var animal = document.getElementById("animal").value;
     var breed = document.getElementById("breed").value;
     var personality = document.getElementById("personality").value;
     var radioOptions = document.getElementsByName('adoptable');
-    var goal = document.getElementById("goal").value;
-    var shelterID = document.getElementById("shelterID").value;
-
+    isAdoptable = true;
     for (var i = 0; i <  radioOptions.length; i++) {
       if (radioOptions[i].checked) {
         if (radioOptions[i].value == 'yes') {
@@ -86,21 +115,24 @@ var samplePets = [
         break;
       }
     }
-    var newPet = {
-      "petID": samplePets.length + 1,
-      "registrationDate": registrationDate,
-      "name": name,
-      "birthday": displayBirthday,
-      "animal": animal,
-      "breed": breed,
-      "personality": personality,
-      "adoptable": isAdoptable,
-      "goal": goal,
-      "shelterID": shelterID
-    };
-    samplePets.push(newPet);
-    var tableBodyTag = document.getElementById("petsTableBody");
-    addRowToPetTable(newPet, tableBodyTag);
+    var goal = document.getElementById("goal").value;
+    var shelterID = document.getElementById("shelterID").value;
+
+    var req = new XMLHttpRequest();
+    req.onload = onPetCreated;
+    req.open("post", "http://localhost:7371/pets", true);
+    req.setRequestHeader('Content-type', 'application/json');
+    req.send(JSON.stringify({
+      registrationDate: registrationDate,
+      name: name,
+      birthday: birthday,
+      animal: animal,
+      breed: breed,
+      personality: personality,
+      adoptable: isAdoptable ? 1 : 0,
+      goal: goal,
+      shelterID: shelterID
+    }));
   }
 
   function populatePetTable(pets) {
@@ -115,7 +147,7 @@ var samplePets = [
     var tr = document.createElement('tr');
     for (var dataColumn in row) {
       var td = document.createElement('td');
-      if (dataColumn=="registrationDate") {
+      if (dataColumn=="registrationDate" || dataColumn=="birthday") {
         td.innerHTML = row[dataColumn].split("T")[0]
       }
       else {
