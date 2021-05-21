@@ -72,7 +72,7 @@ var sampleShelters = [
     var fax = document.getElementById("fax").value;
     var email = document.getElementById("email").value;
     var radioOptions = document.getElementsByName('sponsorable');
-
+    isSponsorable = false;
     for (var i = 0; i <  radioOptions.length; i++) {
       if (radioOptions[i].checked) {
         if (radioOptions[i].value == 'yes') {
