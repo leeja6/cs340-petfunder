@@ -43,7 +43,7 @@ var sampleShelters = [
   function getSheltersAndPopulateTable() {
     var req = new XMLHttpRequest();
     req.onload = sheltersRecieved;
-    req.open("get", "http://localhost:7371/shelters", true);
+    req.open("get", "http://flip1.engr.oregonstate.edu:7371/shelters", true);
     req.send();
   }
 
@@ -83,7 +83,7 @@ var sampleShelters = [
 
     var req = new XMLHttpRequest();
     req.onload = onShelterCreated;
-    req.open("post", "http://localhost:7371/shelters", true);
+    req.open("post", "http://flip1.engr.oregonstate.edu:7371/shelters", true);
     req.setRequestHeader('Content-type', 'application/json');
     req.send(JSON.stringify({
       registrationDate: registrationDate,
