@@ -35,6 +35,16 @@ app.get('/pets', function(req,res,next) {
   });
 });
 
+app.post('/pets', function(req,res,next) {
+  pool.query('INSERT INTO Pets (name, birthday, animal, breed, personality, adoptable, goal, shelterID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [req.body.nameInput, req.body.birthday, req.body.animal, req.body.breedInput, req.body.personalityInput, req.body.adoptableInput, req.body.goalInput, req.body.shelterID], function(err, result) {
+    if (err) {
+      next(err);
+      return;
+    }
+    res.send(String(result.insertId));
+  });
+});
+
 app.get('/shelters', function(req,res,next) {
   var selectQuery = 'SELECT * FROM Shelters;';
   if (req.query['short'] == 'true') {
