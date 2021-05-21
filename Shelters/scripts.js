@@ -59,11 +59,7 @@ var sampleShelters = [
 
   function createShelter() {
     // Date code from: https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0');
-    var yyyy = today.getFullYear();
-    registrationDate = mm + '/' + dd + '/' + yyyy;
+    var registrationDate = new Date().toISOString();
     var name = document.getElementById("name").value;
     var streetAddress = document.getElementById("streetAddress").value;
     var city = document.getElementById("city").value;
