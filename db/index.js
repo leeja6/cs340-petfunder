@@ -36,7 +36,7 @@ app.get('/pets', function(req,res,next) {
 });
 
 app.post('/pets', function(req,res,next) {
-  pool.query('INSERT INTO Pets (name, birthday, animal, breed, personality, adoptable, goal, shelterID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [req.body.nameInput, req.body.birthday, req.body.animal, req.body.breedInput, req.body.personalityInput, req.body.adoptableInput, req.body.goalInput, req.body.shelterID], function(err, result) {
+  pool.query('INSERT INTO Pets (registrationDate, name, birthday, animal, breed, personality, adoptable, goal, shelterID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [req.body.registrationDate, req.body.nameInput, req.body.birthday, req.body.animal, req.body.breedInput, req.body.personalityInput, req.body.adoptableInput, req.body.goalInput, req.body.shelterID], function(err, result) {
     if (err) {
       next(err);
       return;
