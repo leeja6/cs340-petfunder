@@ -22,8 +22,7 @@ var pool = mysql.createPool({
 module.exports.pool = pool;
 
 app.get('/pets', function(req,res,next) {
-  var selectQuery = 'SELECT petID, registrationDate, name, birthday, animal, breed, personality, adoptable, goal, shelterID FROM Pets';
-  //'SELECT petID, Pets.registrationDate, Pets.name, birthday, animal, breed, personality, adoptable, goal, Pets.shelterID,  Shelters.name FROM Pets LEFT JOIN Shelters ON Pets.shelterID = Shelters.shelterID';
+  var selectQuery = 'SELECT petID, Pets.registrationDate, Pets.name, birthday, animal, breed, personality, adoptable, goal, Pets.shelterID, Shelters.name As shelterName FROM Pets LEFT JOIN Shelters ON Pets.shelterID = Shelters.shelterID';
   if (req.query['short'] == 'true') {
     selectQuery = 'SELECT petID, name FROM Pets';
   }
