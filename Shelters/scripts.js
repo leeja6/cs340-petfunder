@@ -25,6 +25,8 @@ var sampleShelters = [
     }
   ]
 
+var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
+
   function sheltersRecieved() {
     console.log(this.responseText);
     sampleShelters = JSON.parse(this.responseText);
@@ -43,7 +45,7 @@ var sampleShelters = [
   function getSheltersAndPopulateTable() {
     var req = new XMLHttpRequest();
     req.onload = sheltersRecieved;
-    req.open("get", "http://flip1.engr.oregonstate.edu:7371/shelters", true);
+    req.open("get", apiBaseUrl + '/shelters', true);
     req.send();
   }
 
@@ -83,7 +85,7 @@ var sampleShelters = [
 
     var req = new XMLHttpRequest();
     req.onload = onShelterCreated;
-    req.open("post", "http://flip1.engr.oregonstate.edu:7371/shelters", true);
+    req.open("post", apiBaseUrl + '/shelters', true);
     req.setRequestHeader('Content-type', 'application/json');
     req.send(JSON.stringify({
       registrationDate: registrationDate,
