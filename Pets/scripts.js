@@ -42,142 +42,181 @@ var samplePets = [
     "Oregon Humane Society [2]",
     "Seattle Humane Society [3]",
   ]
+  
+  var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
+    getPets();
+    getShelterData();
 
-  function getValueWithinBrackes(string) {
-    var idMatch = string.match(/\[(.*?)\]/);
-    return idMatch[1];
-  }
+    function getValueWithinBrackets(string) {
+      var idMatch = string.match(/\[(.*?)\]/);
+      return idMatch[1];
+    }
 
-  function petsRecieved() {
-    console.log(this.responseText);
-    samplePets = JSON.parse(this.responseText);
-    for(var i = 0; i < samplePets.length; i++ ) {
-      var petData = samplePets[i];
-      if (petData.adoptable == 1) {
-        petData.adoptable = true;
+    function petsReceived() {
+      var response = JSON.parse(this.responseText);
+      var petsList = [];
+      for(var i = 0; i < response.length; i++ ) {
+        var petData = response[i];
+        if (petData.adoptable == 1) {
+          petData.adoptable = true;
+        } else {
+          petData.adoptable = false;
+        }
+        if (petData.shelterID == null) {
+          shelterID = "";
+        } else {
+          shelterID = petData.shelterName + ' [' + petData.shelterID + ']'
+        }
+        var newPet = {
+          petId: petData.petID,
+          registrationDate: petData.registrationDate.split("T")[0],
+          name: petData.name,
+          birthday: petData.birthday.split("T")[0],
+          animal: petData.animal,
+          breed: petData.breed,
+          personality: petData.personality,
+          adoptable: petData.adoptable,
+          goal: petData.goal,
+          shelterID: shelterID
+        }
+        petsList.push(newPet);
       }
-      else {
-        petData.adoptable = false;
+      samplePets = petsList;
+      populatePetsTable(samplePets);
+    }
+
+    function getPets() {
+      var req = new XMLHttpRequest();
+      req.onload = petsReceived;
+      req.open("get", apiBaseUrl + '/pets', true);
+      req.send();
+    }
+
+    function sheltersReceived() {
+      //console.log(this.responseText);
+      var response = JSON.parse(this.responseText);
+      var sheltersList = [];
+      sheltersList.push("");
+      for(var i = 0; i < response.length; i++ ) {
+        var shelterData = response[i];
+        sheltersList.push(shelterData.name + ' [' + shelterData.shelterID + ']');
+      }
+      sampleShelters = sheltersList;
+      createShelterSelect();
+    }
+
+    function getShelterData() {
+      var req = new XMLHttpRequest();
+      req.onload = sheltersReceived;
+      req.open("get", apiBaseUrl + "/shelters?short=true", true);
+      req.send();
+    }
+
+    function createShelterSelect() {
+      var shelterSelect = document.getElementById("shelterID");
+      shelterSelect.innerHTML = "";
+      //console.log(sampleShelters);
+      for(element in sampleShelters)
+      {
+        var opt = document.createElement("option");
+        opt.innerHTML = sampleShelters[element];
+        opt.value =sampleShelters[element];
+        shelterSelect.appendChild(opt);
       }
     }
-    populatePetTable(samplePets);
-  }
 
-  function getPetsAndPopulateTable() {
-    var req = new XMLHttpRequest();
-    req.onload = petsRecieved;
-    req.open("get", "http://localhost:7371/pets", true);
-    req.send();
-  }
-
-  getPetsAndPopulateTable();
-  function clearTable() {
-    var tableBodyTag = document.getElementById("petsTableBody");
-    tableBodyTag.innerHTML = "";
-  }
-
-  function onPetCreated() {
-    getPetsAndPopulateTable();
-  }
-
-  createShelterSelect();
-
-  function createShelterSelect() {
-    var shelterSelect = document.getElementById("shelterID");
-    for(element in sampleShelters)
-    {
-      console.log(element);
-      var opt = document.createElement("option");
-      opt.innerHTML = sampleShelters[element];
-      opt.value =sampleShelters[element];
-      shelterSelect.appendChild(opt);
+    function createPet() {
+      // Date code from: https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
+      var registrationDate = new Date().toISOString();
+      var name = document.getElementById("name").value;
+      var birthday = document.getElementById("birthday").value;
+      var animal = document.getElementById("animal").value;
+      var breed = document.getElementById("breed").value;
+      var personality = document.getElementById("personality").value;
+      var radioOptions = document.getElementsByName('adoptable');
+      isAdoptable = true;
+      for (var i = 0; i <  radioOptions.length; i++) {
+        if (radioOptions[i].checked) {
+          if (radioOptions[i].value == 'yes') {
+            isAdoptable = true;
+          }
+          else {
+            isAdoptable = false;
+          }
+          break;
+        }
+      }
+      var goal = document.getElementById("goal").value;
+      if (document.getElementById("shelterID").value == "") {
+        var shelterID = null;
+      } else {
+        var shelterID = getValueWithinBrackets(document.getElementById("shelterID").value);
+      }
+      var req = new XMLHttpRequest();
+      req.onload = getPets;
+      req.open("post", apiBaseUrl + '/pets', true);
+      req.setRequestHeader('Content-type', 'application/json');
+      req.send(JSON.stringify({
+        registrationDate: registrationDate,
+        name: name,
+        birthday: birthday,
+        animal: animal,
+        breed: breed,
+        personality: personality,
+        adoptable: isAdoptable ? 1 : 0,
+        goal: goal,
+        shelterID: shelterID
+      }));
     }
-  }
 
-  function createPet() {
-    // Date code from: https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
-    var registrationDate = new Date().toISOString();
-    var name = document.getElementById("name").value;
-    var birthday = document.getElementById("birthday").value;
-    var animal = document.getElementById("animal").value;
-    var breed = document.getElementById("breed").value;
-    var personality = document.getElementById("personality").value;
-    var radioOptions = document.getElementsByName('adoptable');
-    isAdoptable = true;
-    for (var i = 0; i <  radioOptions.length; i++) {
-      if (radioOptions[i].checked) {
-        if (radioOptions[i].value == 'yes') {
-          isAdoptable = true;
+    function clearTable() {
+      var tableBodyTag = document.getElementById("petsTableBody");
+      tableBodyTag.innerHTML = "";
+    }
+
+    function populatePetsTable(pets) {
+      clearTable();
+      var tableBodyTag = document.getElementById("petsTableBody");
+      for (var i = 0; i < pets.length; i++) {
+        addRowToPetTable(pets[i], tableBodyTag);
+      }
+    }
+
+    function addRowToPetTable(row, bodyElement) {
+      var tr = document.createElement('tr');
+      for (var dataColumn in row) {
+        var td = document.createElement('td');
+        if (dataColumn=="registrationDate" || dataColumn=="birthday") {
+          td.innerHTML = row[dataColumn].split("T")[0]
         }
         else {
-          isAdoptable = false;
+          td.innerHTML = row[dataColumn];
         }
-        break;
+        tr.appendChild(td);
+      }
+      var editButton = document.createElement('button');
+      editButton.innerHTML = "Edit";
+      var editRow = document.createElement('td');
+      editRow.appendChild(editButton);
+      tr.appendChild(editRow);
+      var deleteButton = document.createElement('button');
+      deleteButton.innerHTML = "Delete";
+      deleteButton.addEventListener('click',function(event) {
+        deletePet(row["petID"]);
+      })
+      var deleteRow = document.createElement('td');
+      deleteRow.appendChild(deleteButton);
+      tr.appendChild(deleteRow);
+      bodyElement.appendChild(tr);
+    }
+
+    function deletePet(petID) {
+      for (var i = 0; i < samplePets.length; i++) {
+        var petIDMatch = samplePets[i]["petID"]==petID;
+        if (petIDMatch) {
+          samplePets.splice(i,1);
+          populatePetTable(samplePets);
+          break;
+          }
       }
     }
-    var goal = document.getElementById("goal").value;
-    var shelterID = document.getElementById("shelterID").value;
-
-    var req = new XMLHttpRequest();
-    req.onload = onPetCreated;
-    req.open("post", "http://localhost:7371/pets", true);
-    req.setRequestHeader('Content-type', 'application/json');
-    req.send(JSON.stringify({
-      registrationDate: registrationDate,
-      name: name,
-      birthday: birthday,
-      animal: animal,
-      breed: breed,
-      personality: personality,
-      adoptable: isAdoptable ? 1 : 0,
-      goal: goal,
-      shelterID: shelterID
-    }));
-  }
-
-  function populatePetTable(pets) {
-    clearTable();
-    var tableBodyTag = document.getElementById("petsTableBody");
-    for (var i = 0; i < pets.length; i++) {
-      addRowToPetTable(pets[i], tableBodyTag);
-    }
-  }
-
-  function addRowToPetTable(row, bodyElement) {
-    var tr = document.createElement('tr');
-    for (var dataColumn in row) {
-      var td = document.createElement('td');
-      if (dataColumn=="registrationDate" || dataColumn=="birthday") {
-        td.innerHTML = row[dataColumn].split("T")[0]
-      }
-      else {
-        td.innerHTML = row[dataColumn];
-      }
-      tr.appendChild(td);
-    }
-    var editButton = document.createElement('button');
-    editButton.innerHTML = "Edit";
-    var editRow = document.createElement('td');
-    editRow.appendChild(editButton);
-    tr.appendChild(editRow);
-    var deleteButton = document.createElement('button');
-    deleteButton.innerHTML = "Delete";
-    deleteButton.addEventListener('click',function(event) {
-      deletePet(row["petID"]);
-    })
-    var deleteRow = document.createElement('td');
-    deleteRow.appendChild(deleteButton);
-    tr.appendChild(deleteRow);
-    bodyElement.appendChild(tr);
-  }
-
-  function deletePet(petID) {
-    for (var i = 0; i < samplePets.length; i++) {
-      var petIDMatch = samplePets[i]["petID"]==petID;
-      if (petIDMatch) {
-        samplePets.splice(i,1);
-        populatePetTable(samplePets);
-        break;
-        }
-    }
-  }
