@@ -60,13 +60,23 @@ app.get('/shelters', function(req,res,next) {
 });
 
 app.post('/shelters', function(req,res,next) {
-  pool.query('INSERT INTO Shelters (registrationDate, name, streetAddress, city, state, phoneNumber, fax, email, sponsorable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [req.body.registrationDate, req.body.name, req.body.streetAddress, req.body.city, req.body.state, req.body.phoneNumber, req.body.fax, req.body.email, req.body.sponsorable], function(err, result) {
-    if (err) {
-      next(err);
-      return;
-    }
-    res.send(String(result.insertId));
-  });
+  if (req.body.action === 'insert'){
+    pool.query('INSERT INTO Shelters (registrationDate, name, streetAddress, city, state, phoneNumber, fax, email, sponsorable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [req.body.registrationDate, req.body.name, req.body.streetAddress, req.body.city, req.body.state, req.body.phoneNumber, req.body.fax, req.body.email, req.body.sponsorable], function(err, result) {
+      if (err) {
+        next(err);
+        return;
+      }
+      res.send(String(result.insertId));
+    });
+  } else if (req.body.action === 'delete'){
+    pool.query('DELETE FROM Shelters WHERE shelterID = ?', [req.body.shelterID], function(err, result) {
+      if (err) {
+        next(err);
+        return;
+      }
+      res.send(String(result.deleteId));
+    });
+  }
 });
 
 app.get('/sponsors', function(req,res,next) {
