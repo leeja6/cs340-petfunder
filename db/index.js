@@ -97,6 +97,16 @@ app.get('/sponsors', function(req,res,next) {
   });
 });
 
+app.delete('/sponsors', function(req,res,next) {
+  pool.query('DELETE from Sponsors WHERE sponsorID=?', [req.query.sponsorID], function(err,result){
+    if(err){
+      next(err);
+      return;
+    }
+    res.send("Deleted "+result.affectedRows+" row(s).")
+    })
+});
+
 app.post('/sponsors', function(req,res,next) {
   pool.query('INSERT INTO Sponsors (firstName, lastName, anonymous) VALUES (?, ?, ?)', [req.body.firstName, req.body.lastName, req.body.anonymous], function(err, result) {
     if (err) {
@@ -105,6 +115,27 @@ app.post('/sponsors', function(req,res,next) {
     }
     res.send(String(result.insertId));
   });
+});
+
+app.put('/sponsors', function(req,res,next) {
+    pool.query("SELECT * FROM Sponsors WHERE sponsorID=?", [req.query.sponsorID], function(err, result){
+      if(err){
+        next(err);
+        return;
+      }
+      if(result.length == 1){
+        var curVals = result[0];
+        pool.query("UPDATE Sponsors SET firstName=?, lastName=?, anonymous=? WHERE sponsorID=? ",
+          [req.body.firstName || curVals.firstName, req.body.lastName || curVals.lastName, req.body.anonymous || curVals.anonymous, req.query.sponsorID],
+          function(err, result){
+          if(err){
+            next(err);
+            return;
+          }
+          res.send(result);
+        });
+      }
+    })
 });
 
 app.get('/shelterSponsorships', function(req,res,next) {
@@ -118,6 +149,16 @@ app.get('/shelterSponsorships', function(req,res,next) {
   });
 });
 
+app.delete('/shelterSponsorships', function(req,res,next) {
+  pool.query('DELETE from ShelterSponsorships WHERE sponsorID=? AND shelterID=?', [req.query.sponsorID, req.query.shelterID], function(err,result){
+    if(err){
+      next(err);
+      return;
+    }
+    res.send("Deleted "+result.affectedRows+" row(s).")
+    })
+});
+
 app.post('/shelterSponsorships', function(req,res,next) {
   var insertQuery ='INSERT INTO ShelterSponsorships (sponsorID, shelterID, amount, beginDate, endDate) VALUES (?, ?, ?, ?, ?)';
   pool.query(insertQuery, [req.body.sponsorID, req.body.shelterID, req.body.amount, req.body.beginDate, req.body.endDate], function(err, result) {
@@ -127,6 +168,27 @@ app.post('/shelterSponsorships', function(req,res,next) {
     }
     res.send(String(result.insertId));
   });
+});
+
+app.put('/shelterSponsorships', function(req,res,next) {
+    pool.query("SELECT * FROM ShelterSponsorships WHERE sponsorID=? and shelterID=?", [req.query.sponsorID, req.query.shelterID], function(err, result){
+      if(err){
+        next(err);
+        return;
+      }
+      if(result.length == 1){
+        var curVals = result[0];
+        pool.query("UPDATE ShelterSponsorships SET amount=?, beginDate=?, endDate=? WHERE sponsorID=? AND shelterID=? ",
+          [req.body.amount || curVals.amount, req.body.beginDate || curVals.beginDate, req.body.endDate || curVals.endDate, req.query.sponsorID, req.query.shelterID],
+          function(err, result){
+          if(err){
+            next(err);
+            return;
+          }
+          res.send(result);
+        });
+      }
+    })
 });
 
 app.get('/petSponsorships', function(req,res,next) {
@@ -140,6 +202,16 @@ app.get('/petSponsorships', function(req,res,next) {
   });
 });
 
+app.delete('/petSponsorships', function(req,res,next) {
+  pool.query('DELETE from PetSponsorships WHERE sponsorID=? AND petID=?', [req.query.sponsorID, req.query.petID], function(err,result){
+    if(err){
+      next(err);
+      return;
+    }
+    res.send("Deleted "+result.affectedRows+" row(s).")
+    })
+});
+
 app.post('/petSponsorships', function(req,res,next) {
   var insertQuery ='INSERT INTO PetSponsorships (sponsorID, petID, amount, beginDate, endDate) VALUES (?, ?, ?, ?, ?)';
   pool.query(insertQuery, [req.body.sponsorID, req.body.petID, req.body.amount, req.body.beginDate, req.body.endDate], function(err, result) {
@@ -149,6 +221,27 @@ app.post('/petSponsorships', function(req,res,next) {
     }
     res.send(String(result.insertId));
   });
+});
+
+app.put('/petSponsorships', function(req,res,next) {
+    pool.query("SELECT * FROM ShelterSponsorships WHERE sponsorID=? and petID=?", [req.query.sponsorID, req.query.petID], function(err, result){
+      if(err){
+        next(err);
+        return;
+      }
+      if(result.length == 1){
+        var curVals = result[0];
+        pool.query("UPDATE ShelterSponsorships SET amount=?, beginDate=?, endDate=? WHERE sponsorID=? AND petID=? ",
+          [req.body.amount || curVals.amount, req.body.beginDate || curVals.beginDate, req.body.endDate || curVals.endDate, req.query.sponsorID, req.query.petID],
+          function(err, result){
+          if(err){
+            next(err);
+            return;
+          }
+          res.send(result);
+        });
+      }
+    })
 });
 
 
