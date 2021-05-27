@@ -55,7 +55,7 @@ var displayTypeToHeaderMapping = {
   "shelters":"shelterID"
 };
 
-var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
+var apiBaseUrl = 'http://localhost:7371';
 getPetSponsorships();
 getShelterSponsorships();
 getSponsorData();
@@ -350,22 +350,22 @@ function addRowToSponsorshipsTable(row, bodyElement, type) {
 }
 
 function deleteSponsorship(sponsorID, sponsoredID, type) {
-  var sampleSponsorships;
+  var apiCallString = '/shelterSponsorships?shelterID=';
+  var displayCall = getShelterSponsorships;
   if (type == "pets") {
-    sampleSponsorships = samplePetSponsorships;
+    apiCallString = '/petSponsorships?petID=';
+    displayCall = getPetSponsorships;
   }
-  else {
-    sampleSponsorships = sampleShelterSponsorships;
-  }
-  for (var i = 0; i < sampleSponsorships.length; i++) {
-    var sponsorIDMatch = sampleSponsorships[i]["sponsorID"]==sponsorID;
-    var sponsoredIDMatch = sampleSponsorships[i][displayTypeToHeaderMapping[type]]==sponsoredID;
-    if (sponsorIDMatch && sponsoredIDMatch) {
-      sampleSponsorships.splice(i,1);
-      populateSponsorshipsTable(sampleShelterSponsorships, samplePetSponsorships);
-      break;
-      }
-  }
+  var req = new XMLHttpRequest();
+  req.onload = displayCall;
+  var sponsorIDParse = sponsorID.charAt(sponsorID.length-2)
+  var sponsoredIDParse = sponsoredID.charAt(sponsoredID.length-2)
+  var apiCallString = apiBaseUrl + apiCallString + sponsoredIDParse + '&sponsorID=' + sponsorIDParse;
+  console.log(apiCallString);
+  console.log(sponsorID.charAt(sponsorID.length-2));
+  console.log(sponsoredID.charAt(sponsoredID.length-2));
+  req.open("delete", apiCallString, true)
+  req.send();
 }
 
 function resetTable() {
