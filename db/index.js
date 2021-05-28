@@ -86,6 +86,14 @@ app.post('/shelters', function(req,res,next) {
       }
       res.send(String(result.deleteId));
     });
+  } else if (req.body.action === 'update'){
+    pool.query('UPDATE Shelters SET name = ?, streetAddress = ?, city = ?, state = ?, phoneNumber = ?, fax = ?, email = ?, sponsorable = ? WHERE shelterID = ?', [req.body.name, req.body.streetAddress, req.body.city, req.body.state, req.body.phoneNumber, req.body.fax, req.body.email, req.body.sponsorable, req.body.shelterID], function(err, result) {
+      if (err) {
+        next(err);
+        return;
+      }
+      res.send(String(result.deleteId));
+    });
   }
 });
 
