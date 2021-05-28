@@ -28,7 +28,7 @@ var sampleShelters = [
 var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
 
   function sheltersRecieved() {
-    console.log(this.responseText);
+    //console.log(this.responseText);
     sampleShelters = JSON.parse(this.responseText);
     for(var i = 0; i < sampleShelters.length; i++ ) {
       var shelterData = sampleShelters[i];
@@ -82,12 +82,14 @@ var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
         break;
       }
     }
+    var insert = 'insert';
 
     var req = new XMLHttpRequest();
     req.onload = onShelterCreated;
     req.open("post", apiBaseUrl + '/shelters', true);
     req.setRequestHeader('Content-type', 'application/json');
     req.send(JSON.stringify({
+      action: insert,
       registrationDate: registrationDate,
       name: name,
       streetAddress: streetAddress,
@@ -137,12 +139,13 @@ var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
   }
 
   function deleteShelter(shelterID) {
-    for (var i = 0; i < sampleShelters.length; i++) {
-      var shelterIDMatch = sampleShelters[i]["shelterID"]==shelterID;
-      if (shelterIDMatch) {
-        sampleShelters.splice(i,1);
-        populateShelterTable(sampleShelters);
-        break;
-        }
-    }
+    var del = 'delete';
+    var req = new XMLHttpRequest();
+    req.onload = onShelterCreated;
+    req.open("post", apiBaseUrl + '/shelters', true);
+    req.setRequestHeader('Content-type', 'application/json');
+    req.send(JSON.stringify({
+      action: del,
+      shelterID: shelterID
+    }));
   }
