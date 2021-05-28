@@ -49,7 +49,7 @@ CREATE TABLE PetSponsorships (
 	beginDate date NOT NULL,
 	endDate date,
 	PRIMARY KEY (sponsorID, petID),
-	FOREIGN KEY (sponsorID) REFERENCES Sponsors(sponsorID),
+	FOREIGN KEY (sponsorID) REFERENCES Sponsors(sponsorID) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (petID) REFERENCES Pets(petID)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -60,7 +60,7 @@ CREATE TABLE ShelterSponsorships (
 	beginDate date NOT NULL,
 	endDate date,
 	PRIMARY KEY (sponsorID, shelterID),
-	FOREIGN KEY (sponsorID) REFERENCES Sponsors(sponsorID),
+	FOREIGN KEY (sponsorID) REFERENCES Sponsors(sponsorID) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (shelterID) REFERENCES Shelters(shelterID)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

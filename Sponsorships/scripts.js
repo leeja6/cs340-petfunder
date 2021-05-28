@@ -269,6 +269,7 @@ function clearTable() {
   var tableBodyTag = document.getElementById("sponsorshipsTableBody");
   tableBodyTag.innerHTML = "";
 }
+
 function tableDisplayToggled(radioElement) {
   var selectedValue = radioElement.value;
   var headerIdElement = document.getElementById('idHeaderValue');
@@ -328,25 +329,85 @@ function addRowToSponsorshipsTable(row, bodyElement, type) {
   orderedRow.push(row["amount"]);
   orderedRow.push(row["beginDate"]);
   orderedRow.push(row["endDate"]);
+  var sponsorID = getValueWithinBrackes(orderedRow[0]);
+  var sponsoredID = getValueWithinBrackes(orderedRow[1]);
+  var identifier = sponsorID + '_' + sponsoredID;
+  tr.id = identifier;
   for (var i = 0; i < orderedRow.length; i++) {
     var td = document.createElement('td');
     td.innerHTML = orderedRow[i];
     tr.appendChild(td);
   }
-  var deleteButton = document.createElement('button');
-  deleteButton.innerHTML = "Delete";
-  deleteButton.addEventListener('click',function(event) {
-    deleteSponsorship(orderedRow[0],orderedRow[1],type);
-  })
   var editButton = document.createElement('button');
-  editButton.innerHTML = "Edit";
   var editRow = document.createElement('td');
   editRow.appendChild(editButton);
   tr.appendChild(editRow);
+  editButton.innerHTML = "Edit";
+  editButton.addEventListener('click',function(event) {
+    editSponsorship(sponsorID,sponsoredID,type);
+    editRow.innerHTML = ""
+    var submitButton = document.createElement('button');
+    submitButton.innerHTML = "Submit";
+    editRow.appendChild(submitButton);
+    submitButton.addEventListener('click', function(event) {
+      updateSponsorship(sponsorID, sponsoredID, type)
+    })
+  })
+  var deleteButton = document.createElement('button');
+  deleteButton.innerHTML = "Delete";
+  deleteButton.addEventListener('click',function(event) {
+    deleteSponsorship(sponsorID,sponsoredID,type);
+  })
   var deleteRow = document.createElement('td');
   deleteRow.appendChild(deleteButton);
   tr.appendChild(deleteRow);
   bodyElement.appendChild(tr);
+}
+
+function editSponsorship(sponsorID, sponsoredID, type) {
+  var row = document.getElementById(sponsorID + "_" + sponsoredID);
+  var rowNodes = row.childNodes;
+  var columns = ["amount", "beginDate", "endDate"]
+  for (var i = 2; i < rowNodes.length - 2; i++) {
+    var td = rowNodes[i];
+    var tdText = td.textContent;
+    td.textContent = "";
+    var input = document.createElement("input");
+    input.id = columns[i-2]+sponsorID+"_"+sponsoredID
+    input.defaultValue = tdText;
+    if (columns[i-2]=="beginDate"||columns[i-2]=="endDate") {
+      input.type = "date"
+      console.log("hello");
+    }
+    input.size = 10;
+    td.appendChild(input);
+    input.classList.add("table");
+  }
+}
+
+function updateSponsorship(sponsorID, sponsoredID, type) {
+  var identifier = sponsorID + "_" + sponsoredID;
+  var row = document.getElementById(identifier);
+  var rowNodes = row.childNodes;
+  var amount = document.getElementById("amount"+identifier).value;
+  var beginDate = document.getElementById("beginDate"+identifier).value;
+  var endDate = document.getElementById("endDate"+identifier).value;
+  var req = new XMLHttpRequest();
+  var apiCallString = '/shelterSponsorships?shelterID=';
+  var displayCall = getShelterSponsorships;
+  if (type == "pets") {
+    apiCallString = '/petSponsorships?petID=';
+    displayCall = getPetSponsorships;
+  }
+  var apiCallString = apiBaseUrl + apiCallString + sponsoredID + '&sponsorID=' + sponsorID
+  req.onload = displayCall;
+  req.open("put", apiCallString, true);
+  req.setRequestHeader('Content-type', 'application/json');
+  req.send(JSON.stringify({
+    amount: amount,
+    beginDate: beginDate,
+    endDate: endDate
+  }));
 }
 
 function deleteSponsorship(sponsorID, sponsoredID, type) {
@@ -358,12 +419,8 @@ function deleteSponsorship(sponsorID, sponsoredID, type) {
   }
   var req = new XMLHttpRequest();
   req.onload = displayCall;
-  var sponsorIDParse = sponsorID.charAt(sponsorID.length-2)
-  var sponsoredIDParse = sponsoredID.charAt(sponsoredID.length-2)
-  var apiCallString = apiBaseUrl + apiCallString + sponsoredIDParse + '&sponsorID=' + sponsorIDParse;
+  var apiCallString = apiBaseUrl + apiCallString + sponsoredID + '&sponsorID=' + sponsorID;
   console.log(apiCallString);
-  console.log(sponsorID.charAt(sponsorID.length-2));
-  console.log(sponsoredID.charAt(sponsoredID.length-2));
   req.open("delete", apiCallString, true)
   req.send();
 }

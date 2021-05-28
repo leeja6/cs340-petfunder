@@ -125,6 +125,7 @@ app.put('/sponsors', function(req,res,next) {
       }
       if(result.length == 1){
         var curVals = result[0];
+        console.log(req.body.anonymous);
         pool.query("UPDATE Sponsors SET firstName=?, lastName=?, anonymous=? WHERE sponsorID=? ",
           [req.body.firstName || curVals.firstName, req.body.lastName || curVals.lastName, req.body.anonymous || curVals.anonymous, req.query.sponsorID],
           function(err, result){
@@ -224,14 +225,14 @@ app.post('/petSponsorships', function(req,res,next) {
 });
 
 app.put('/petSponsorships', function(req,res,next) {
-    pool.query("SELECT * FROM ShelterSponsorships WHERE sponsorID=? and petID=?", [req.query.sponsorID, req.query.petID], function(err, result){
+    pool.query("SELECT * FROM PetSponsorships WHERE sponsorID=? and petID=?", [req.query.sponsorID, req.query.petID], function(err, result){
       if(err){
         next(err);
         return;
       }
       if(result.length == 1){
         var curVals = result[0];
-        pool.query("UPDATE ShelterSponsorships SET amount=?, beginDate=?, endDate=? WHERE sponsorID=? AND petID=? ",
+        pool.query("UPDATE PetSponsorships SET amount=?, beginDate=?, endDate=? WHERE sponsorID=? AND petID=? ",
           [req.body.amount || curVals.amount, req.body.beginDate || curVals.beginDate, req.body.endDate || curVals.endDate, req.query.sponsorID, req.query.petID],
           function(err, result){
           if(err){

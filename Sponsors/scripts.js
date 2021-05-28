@@ -13,9 +13,9 @@ var sampleSponsors = [
   },
 ]
 
-var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
+var apiBaseUrl = 'http://localhost:7371';
 
-function sponsorsRecieved() {
+function sponsorsreceived() {
   console.log(this.responseText);
   sampleSponsors = JSON.parse(this.responseText);
   for(var i = 0; i < sampleSponsors.length; i++ ) {
@@ -32,7 +32,7 @@ function sponsorsRecieved() {
 
 function getSponsorsAndPopulateTable() {
   var req = new XMLHttpRequest();
-  req.onload = sponsorsRecieved;
+  req.onload = sponsorsreceived;
   req.open("get", apiBaseUrl + '/sponsors', true);
   req.send();
 }
@@ -85,20 +85,32 @@ function populateSponsorTable(sponsors) {
 
 function addRowToSponsorTable(row, bodyElement) {
   var tr = document.createElement('tr');
+  var sponsorID = row["sponsorID"]
+  tr.id = sponsorID;
   for (var dataColumn in row) {
     var td = document.createElement('td');
       td.innerHTML = row[dataColumn];
     tr.appendChild(td);
   }
-  var editButton = document.createElement('button');
-  editButton.innerHTML = "Edit";
   var editRow = document.createElement('td');
+  var editButton = document.createElement('button');
   editRow.appendChild(editButton);
   tr.appendChild(editRow);
+  editButton.innerHTML = "Edit";
+  editButton.addEventListener('click',function(event) {
+    editSponsor(sponsorID);
+    editRow.innerHTML = ""
+    var submitButton = document.createElement('button');
+    submitButton.innerHTML = "Submit";
+    editRow.appendChild(submitButton);
+    submitButton.addEventListener('click', function(event) {
+      updateSponsor(sponsorID);
+    })
+  })
   var deleteButton = document.createElement('button');
   deleteButton.innerHTML = "Delete";
   deleteButton.addEventListener('click',function(event) {
-    deleteSponsor(row["sponsorID"]);
+    deleteSponsor(sponsorID);
   })
   var deleteRow = document.createElement('td');
   deleteRow.appendChild(deleteButton);
@@ -106,13 +118,51 @@ function addRowToSponsorTable(row, bodyElement) {
   bodyElement.appendChild(tr);
 }
 
-function deleteSponsor(sponsorID) {
-  for (var i = 0; i < sampleSponsors.length; i++) {
-    var sponsorIDMatch = sampleSponsors[i]["sponsorID"]==sponsorID;
-    if (sponsorIDMatch) {
-      sampleSponsors.splice(i,1);
-      populateSponsorTable(sampleSponsors);
-      break;
+function editSponsor(sponsorID) {
+  var row = document.getElementById(sponsorID);
+  var rowNodes = row.childNodes;
+  var columns = ["firstName", "lastName", "anonymous"]
+  for (var i = 1; i < rowNodes.length - 2; i++) {
+    var td = rowNodes[i];
+    var tdText = td.textContent;
+    td.textContent = "";
+    var input = document.createElement("input");
+    input.id = columns[i-1]+sponsorID
+    input.setAttribute("id",columns[i-1]+sponsorID)
+    input.defaultValue = tdText;
+    if (columns[i-1]=="anonymous") {
+      input.type = "checkbox";
+      if (tdText == "true") {
+        input.checked = true;
       }
+    }
+    input.size = 10;
+    td.appendChild(input);
+    input.classList.add("table");
   }
+}
+
+function updateSponsor(sponsorID) {
+  var row = document.getElementById(sponsorID);
+  var rowNodes = row.childNodes;
+  var firstName = document.getElementById("firstName"+sponsorID).value;
+  var lastName = document.getElementById("lastName"+sponsorID).value;
+  var isAnonymous = document.getElementById("anonymous"+sponsorID).checked;
+  console.log(isAnonymous);
+  var req = new XMLHttpRequest();
+  req.onload = getSponsorsAndPopulateTable;
+  req.open("put", apiBaseUrl + '/sponsors?sponsorID=' + sponsorID, true);
+  req.setRequestHeader('Content-type', 'application/json');
+  req.send(JSON.stringify({
+    firstName: firstName,
+    lastName: lastName,
+    anonymous: isAnonymous ? 1 : "FALSE"
+  }));
+}
+
+function deleteSponsor(sponsorID) {
+  var req = new XMLHttpRequest();
+  req.onload = getSponsorsAndPopulateTable;
+  req.open("delete", apiBaseUrl + '/sponsors?sponsorID='+sponsorID, true);
+  req.send();
 }
