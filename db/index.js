@@ -36,13 +36,23 @@ app.get('/pets', function(req,res,next) {
 });
 
 app.post('/pets', function(req,res,next) {
-  pool.query('INSERT INTO Pets (registrationDate, name, birthday, animal, breed, personality, adoptable, goal, shelterID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [req.body.registrationDate, req.body.name, req.body.birthday, req.body.animal, req.body.breed, req.body.personality, req.body.adoptable, req.body.goal, req.body.shelterID], function(err, result) {
-    if (err) {
-      next(err);
-      return;
-    }
-    res.send(String(result.insertId));
-  });
+  if (req.body.action === 'insert'){
+    pool.query('INSERT INTO Pets (registrationDate, name, birthday, animal, breed, personality, adoptable, goal, shelterID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [req.body.registrationDate, req.body.name, req.body.birthday, req.body.animal, req.body.breed, req.body.personality, req.body.adoptable, req.body.goal, req.body.shelterID], function(err, result) {
+      if (err) {
+        next(err);
+        return;
+      }
+      res.send(String(result.insertId));
+    });
+  } else if (req.body.action === 'delete'){
+    pool.query('DELETE FROM Pets WHERE petID = ?', [req.body.petID], function(err, result) {
+      if (err) {
+        next(err);
+        return;
+      }
+      res.send(String(result.deleteId));
+    });
+  }
 });
 
 app.get('/shelters', function(req,res,next) {
