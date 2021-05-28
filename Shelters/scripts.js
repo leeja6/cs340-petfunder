@@ -166,7 +166,7 @@ function editShelter(shelterID) {
         input.checked = true;
       }
     }
-    input.size = 10;
+    input.size = 15;
     td.appendChild(input);
     input.classList.add("table");
   }
