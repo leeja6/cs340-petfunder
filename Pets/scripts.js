@@ -44,7 +44,7 @@ var samplePets = [
   ]
   
   var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
-    getPets();
+      getPets();
     getShelterData();
 
     function getValueWithinBrackets(string) {
@@ -152,11 +152,13 @@ var samplePets = [
       } else {
         var shelterID = getValueWithinBrackets(document.getElementById("shelterID").value);
       }
+      var insert = 'insert';
       var req = new XMLHttpRequest();
       req.onload = getPets;
       req.open("post", apiBaseUrl + '/pets', true);
       req.setRequestHeader('Content-type', 'application/json');
       req.send(JSON.stringify({
+        action: insert,
         registrationDate: registrationDate,
         name: name,
         birthday: birthday,
@@ -211,12 +213,14 @@ var samplePets = [
     }
 
     function deletePet(petID) {
-      for (var i = 0; i < samplePets.length; i++) {
-        var petIDMatch = samplePets[i]["petID"]==petID;
-        if (petIDMatch) {
-          samplePets.splice(i,1);
-          populatePetTable(samplePets);
-          break;
-          }
-      }
+      var del = 'delete';
+      var req = new XMLHttpRequest();
+      req.onload = getPets;
+      req.open("post", apiBaseUrl + '/pets', true);
+      req.setRequestHeader('Content-type', 'application/json');
+      req.send(JSON.stringify({
+        action: del,
+        petID: petID
+      }));
     }
+  
