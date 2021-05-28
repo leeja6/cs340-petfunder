@@ -39,7 +39,7 @@ CREATE TABLE `Pets` (
 `goal` varchar(255) NOT NULL,
 `shelterID` int(11),
 PRIMARY KEY (`petID`),
-FOREIGN KEY (`shelterID`) REFERENCES `Shelters`(`shelterID`)
+FOREIGN KEY (`shelterID`) REFERENCES `Shelters`(`shelterID`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE PetSponsorships (
