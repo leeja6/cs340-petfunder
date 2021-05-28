@@ -13,7 +13,7 @@ var sampleSponsors = [
   },
 ]
 
-var apiBaseUrl = 'http://localhost:7371';
+var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
 
 function sponsorsreceived() {
   console.log(this.responseText);
