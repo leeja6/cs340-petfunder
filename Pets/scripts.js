@@ -42,7 +42,7 @@ var samplePets = [
     "Oregon Humane Society [2]",
     "Seattle Humane Society [3]",
   ]
-  
+
   var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
       getPets();
     getShelterData();
@@ -68,7 +68,7 @@ var samplePets = [
           shelterID = petData.shelterName + ' [' + petData.shelterID + ']'
         }
         var newPet = {
-          petId: petData.petID,
+          petID: petData.petID,
           registrationDate: petData.registrationDate.split("T")[0],
           name: petData.name,
           birthday: petData.birthday.split("T")[0],
@@ -223,4 +223,3 @@ var samplePets = [
         petID: petID
       }));
     }
-  
