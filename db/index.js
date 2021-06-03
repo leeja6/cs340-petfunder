@@ -52,7 +52,15 @@ app.post('/pets', function(req,res,next) {
       }
       res.send(String(result.deleteId));
     });
-  }
+  } else if (req.body.action === 'update'){
+    pool.query('UPDATE Pets SET name = ?, birthday = ?, animal = ?, breed = ?, personality = ?, adoptable = ?, goal = ?, shelterID = ? WHERE petID = ?', [req.body.name, req.body.birthday, req.body.animal, req.body.breed, req.body.personality, req.body.adoptable, req.body.goal, req.body.shelterID, req.body.petID], function(err, result) {
+      if (err) {
+        next(err);
+        return;
+      }
+      res.send(String(result.updateId));
+    });
+  }  
 });
 
 app.get('/shelters', function(req,res,next) {
@@ -92,7 +100,7 @@ app.post('/shelters', function(req,res,next) {
         next(err);
         return;
       }
-      res.send(String(result.deleteId));
+      res.send(String(result.updateId));
     });
   }
 });
