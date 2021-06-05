@@ -51,6 +51,10 @@ function onSponsorCreated() {
 function createSponsor() {
   var firstName = document.getElementById("firstName").value;
   var lastName = document.getElementById("lastName").value;
+  if ((firstName=='')||(lastName=='')) {
+    alert('First Name and Last Name are required fields.');
+    return;
+  }
   var radioOptions = document.getElementsByName('anonymous');
   var isAnonymous = false;
   for (var i = 0; i <  radioOptions.length; i++) {

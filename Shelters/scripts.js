@@ -135,7 +135,7 @@ var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
         updateShelter(shelterID);
       })
     })
-  
+
     var deleteButton = document.createElement('button');
     deleteButton.innerHTML = "Delete";
     deleteButton.addEventListener('click',function(event) {
@@ -147,7 +147,7 @@ var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
     bodyElement.appendChild(tr);
   }
 
-  
+
 function editShelter(shelterID) {
   var row = document.getElementById(shelterID);
   var rowNodes = row.childNodes;
@@ -183,7 +183,7 @@ function updateShelter(shelterID) {
   var fax = document.getElementById("fax"+shelterID).value;
   var email = document.getElementById("email"+shelterID).value;
   var isSponsorable = document.getElementById("sponsorable"+shelterID).checked;
-  
+
   var action = 'update';
 
   var req = new XMLHttpRequest();

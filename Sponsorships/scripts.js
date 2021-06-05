@@ -224,6 +224,9 @@ function createSponsorship() {
   var sponsoredID = getValueWithinBrackes(document.getElementById("sponsoredID").value);
   var amount = document.getElementById("amount").value;
   var beginDate = document.getElementById("beginDate").value;
+  if (amount==''||beginDate=='') {
+    alert('Sponsorship Amount and Begin Date are required fields.')
+  }
   var endDate = document.getElementById("endDate").value;
   var radioOptions = document.getElementsByName('createType');
   var createType = "pets";
@@ -284,7 +287,7 @@ function formCreateToggled(radioElement) {
   var selectedValue = radioElement.value;
   var sponsoredIDLabelElement = document.getElementById('sponsoredIDLabel');
   var displayValue = displayTypeToHeaderMapping[selectedValue].charAt(0).toUpperCase() + displayTypeToHeaderMapping[selectedValue].slice(1);
-  displayValue = displayValue.substring(0, displayValue.length - 2);
+  displayValue = displayValue.substring(0, displayValue.length - 2)+"*";
   sponsoredIDLabelElement.innerHTML = displayValue;
   if (selectedValue == "shelters") {
     createShelterSelect();

@@ -24,21 +24,23 @@
 <fieldset>
 <legend>Add Sponsorships to Sponsorships Database</legend>
 <div id="toggle">
-<label>Sponsorship Type</label>
+<label>Sponsorship Type*</label>
 <input type="radio" id="createPets" name="createType" value="pets" onclick="formCreateToggled(this)" checked>
 <label for="createPets">Pet</label>
 <input type="radio" id="createShelters" name="createType" value="shelters" onclick="formCreateToggled(this)">
 <label for="createShelters">Shelter</label>
 </div>
 <br><br>
-<label for="sponsorID">Sponsor</label>
+<label for="sponsorID">Sponsor*</label>
 <select name ="sponsorID" id="sponsorID"></select><br><br>
-<label for="sponsoredID" id="sponsoredIDLabel">Pet</label>
+<label for="sponsoredID" id="sponsoredIDLabel">Pet*</label>
 <select id="sponsoredID" name="sponsoredID"></select><br><br>
-<label for="amount">Amount</label>
+<i>Sponsorship Amount<br></i>
+<label for="amount">$/Month*</label>
 <input type="number" id="amount" name="amount"><br><br>
-<label for="beginDate">Begin Date</label>
-<input type="date" id="beginDate" name="beginDate "><br><br>
+<i>Sponsorship Period<br></i>
+<label for="beginDate">Begin Date*</label>
+<input type="date" id="beginDate" name="beginDate "><br><br style="line-height:0px;" />
 <label for="endDate">End Date</label>
 <input type="date" id="endDate" name="endDate"><br><br>
 <button type="button" onclick="createSponsorship()">Create Sponsorship</button>
