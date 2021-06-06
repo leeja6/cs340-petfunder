@@ -66,7 +66,7 @@ app.post('/pets', function(req,res,next) {
 app.get('/shelters', function(req,res,next) {
   var selectQuery = 'SELECT * FROM Shelters;';
   if (req.query['short'] == 'true') {
-    selectQuery = 'SELECT name, shelterID FROM Shelters;';
+    selectQuery = 'SELECT name, shelterID FROM Shelters WHERE sponsorable=1;';
   }
   pool.query(selectQuery, function(err, rows) {
     if (err) {
