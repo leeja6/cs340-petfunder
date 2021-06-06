@@ -237,27 +237,35 @@ var samplePets = [
         td.textContent = "";
         var input = document.createElement("input");
         input.id = columns[i-2]+petID;
-        input.setAttribute("id",columns[i-2]+petID);
-        input.defaultValue = tdText;
+
         if (columns[i-2]=="adoptable") {
           input.type = "checkbox";
           if (tdText == "true") {
             input.checked = true;
           }
+          td.appendChild(input);
         } else if (columns[i-2]=="shelterID") {
-          input.innerHTML = "";
-          //console.log(sampleShelters);
+          var select = document.createElement("select");
+          select.id = columns[i-2]+petID;
+          
           for(element in sampleShelters)
           {
-            var opt = document.createElement("option");
-            opt.innerHTML = sampleShelters[element];
-            opt.value =sampleShelters[element];
-            input.appendChild(opt);
+            var option = document.createElement("option");
+            option.setAttribute("value", sampleShelters[element]);
+            option.innerHTML = sampleShelters[element];
+            select.appendChild(option);
+            
           }
+          if (tdText != "") {
+            select.value = tdText;
+          }
+          td.appendChild(select);
+        } else {
+          input.defaultValue = tdText;
+          input.size = 15;
+          td.appendChild(input);
+          input.classList.add("table");
         }
-        input.size = 15;
-        td.appendChild(input);
-        input.classList.add("table");
       }
     }
     
@@ -293,7 +301,7 @@ var samplePets = [
         breed: breed,
         personality: personality,
         adoptable: isAdoptable ? 1 : 0,
-        goald: goal,
+        goal: goal,
         shelterID: shelterID
       }));
     }
