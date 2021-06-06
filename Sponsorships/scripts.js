@@ -55,7 +55,7 @@ var displayTypeToHeaderMapping = {
   "shelters":"shelterID"
 };
 
-var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
+var apiBaseUrl = 'http://localhost:7371';
 getPetSponsorships();
 getShelterSponsorships();
 getSponsorData();
@@ -77,7 +77,7 @@ function petSponsorshipsReceived() {
       petID: petSponsorshipData.name + ' [' + petSponsorshipData.petID + ']',
       amount: petSponsorshipData.amount,
       beginDate: petSponsorshipData.beginDate.split("T")[0],
-      endDate: (petSponsorshipData.endDate ? petSponsorshipData.endDate.split("T")[0] : null )
+      endDate: (petSponsorshipData.endDate != '0000-00-00') ? petSponsorshipData.endDate.split("T")[0] : ""
     }
     petSponsorshipsList.push(newSponsorship);
   }
@@ -86,9 +86,15 @@ function petSponsorshipsReceived() {
 }
 
 function getPetSponsorships() {
+  var sponsorIDFilter = document.getElementById("sponsorIDSearch").value;
+  var requestString = "/petSponsorships"
+  if (!!sponsorIDFilter && sponsorIDFilter != "ALL - NO FILTER") {
+    var sponsorID = getValueWithinBrackes(sponsorIDFilter);
+    requestString = requestString + "Filter?sponsorID="+sponsorID;
+  }
   var req = new XMLHttpRequest();
   req.onload = petSponsorshipsReceived;
-  req.open("get", apiBaseUrl + "/petSponsorships", true);
+  req.open("get", apiBaseUrl + requestString, true);
   req.send();
 }
 
@@ -102,7 +108,7 @@ function shelterSponsorshipsReceived() {
       shelterID: shelterSponsorshipData.name + ' [' + shelterSponsorshipData.shelterID   + ']',
       amount: shelterSponsorshipData.amount,
       beginDate: shelterSponsorshipData.beginDate.split("T")[0],
-      endDate: shelterSponsorshipData.endDate ? shelterSponsorshipData.endDate.split("T")[0] : null
+      endDate: (shelterSponsorshipData.endDate != '0000-00-00') ? shelterSponsorshipData.endDate.split("T")[0] : ""
     }
     shelterSponsorshipsList.push(newSponsorship);
   }
@@ -111,9 +117,15 @@ function shelterSponsorshipsReceived() {
 }
 
 function getShelterSponsorships() {
+  var sponsorIDFilter = document.getElementById("sponsorIDSearch").value;
+  var requestString = "/shelterSponsorships"
+  if (!!sponsorIDFilter && sponsorIDFilter != "ALL - NO FILTER") {
+    var sponsorID = getValueWithinBrackes(sponsorIDFilter);
+    requestString = requestString + "Filter?sponsorID="+sponsorID;
+  }
   var req = new XMLHttpRequest();
   req.onload = shelterSponsorshipsReceived;
-  req.open("get", apiBaseUrl + "/shelterSponsorships", true);
+  req.open("get", apiBaseUrl + requestString, true);
   req.send();
 }
 
@@ -127,6 +139,7 @@ function sponsorsRecieved() {
   }
   sampleSponsors = sponsorsList;
   createSponsorSelect();
+  createSponsorSelect("filter");
 }
 
 function getSponsorData() {
@@ -173,13 +186,20 @@ function getShelterData() {
   req.send();
 }
 
-function createSponsorSelect() {
+function createSponsorSelect(type = "create") {
   var sponsorSelect = document.getElementById("sponsorID");
+  if (type=="filter") {
+    sponsorSelect = document.getElementById("sponsorIDSearch");
+    var opt = document.createElement("option");
+    opt.innerHTML = "ALL - NO FILTER"
+    opt.value = "ALL - NO FILTER"
+    sponsorSelect.appendChild(opt)
+  }
   for(element in sampleSponsors)
   {
     var opt = document.createElement("option");
     opt.innerHTML = sampleSponsors[element];
-    opt.value =sampleSponsors[element];
+    opt.value = sampleSponsors[element];
     sponsorSelect.appendChild(opt);
   }
 }
@@ -220,12 +240,15 @@ function onSponsorshipCreated() {
 }
 
 function createSponsorship() {
-  var sponsorID = getValueWithinBrackes(document.getElementById("sponsorID").value);
-  var sponsoredID = getValueWithinBrackes(document.getElementById("sponsoredID").value);
+  var sponsor = document.getElementById("sponsorID").value;
+  var sponsored = document.getElementById("sponsoredID").value
+  var sponsorID = getValueWithinBrackes(sponsor);
+  var sponsoredID = getValueWithinBrackes(sponsored);
   var amount = document.getElementById("amount").value;
   var beginDate = document.getElementById("beginDate").value;
   if (amount==''||beginDate=='') {
-    alert('Sponsorship Amount and Begin Date are required fields.')
+    alert('Sponsorship Amount and Begin Date are required fields.');
+    return;
   }
   var endDate = document.getElementById("endDate").value;
   var radioOptions = document.getElementsByName('createType');
@@ -236,6 +259,22 @@ function createSponsorship() {
       break;
     }
   }
+  var sampleSponsorships = sampleShelterSponsorships;
+  if (createType == "pets") {
+    sampleSponsorships = samplePetSponsorships;
+  }
+  for (var i = 0; i < sampleSponsorships.length; i++) {
+    if (createType == "pets") {
+      var sampleSponsoredID = sampleSponsorships[i].petID;
+    } else {
+      var sampleSponsoredID = sampleSponsorships[i].shelterID;
+    }
+    console.log(sponsoredID);
+    if (sampleSponsorships[i].sponsorID==sponsor && sampleSponsoredID==sponsored) {
+        alert('This sponsor and beneficiary already have an existing sponsorship.')
+        return;
+    }
+  }
 
   var newSponsorship = {
     "sponsorID": sponsorID,
@@ -244,7 +283,6 @@ function createSponsorship() {
     "endDate": endDate
   };
   newSponsorship[displayTypeToHeaderMapping[createType]] = sponsoredID;
-
   var url = apiBaseUrl + '/shelterSponsorships';
   if (createType == "pets") {
     url = apiBaseUrl + '/petSponsorships';
@@ -297,31 +335,14 @@ function formCreateToggled(radioElement) {
   }
 }
 
-function isFilterActive() {
-  return document.getElementById('filterUsed').checked;
-}
-
 function populateSponsorshipsTable(shelterSponsorships, petSponsorships) {
   var type = getCurrentDisplayType();
   clearTable();
-  var sponsorIDFilter = document.getElementById("sponsorIDSearch").value;
   var currentDisplayTypeSponsorships = type == "pets" ? petSponsorships : shelterSponsorships;
-  var filteredSponsorships = [];
-  if (isFilterActive()) {
-    for (var i = 0; i < currentDisplayTypeSponsorships.length; i++) {
-      var sponsorField = currentDisplayTypeSponsorships[i]["sponsorID"];
-      if (getValueWithinBrackes(sponsorField) == sponsorIDFilter) {
-        filteredSponsorships.push(currentDisplayTypeSponsorships[i]);
-      }
-    }
-    currentDisplayTypeSponsorships = filteredSponsorships;
-  }
-
   var tableBodyTag = document.getElementById("sponsorshipsTableBody");
   for (var i = 0; i < currentDisplayTypeSponsorships.length; i++) {
     addRowToSponsorshipsTable(currentDisplayTypeSponsorships[i], tableBodyTag, type);
   }
-
 }
 
 function addRowToSponsorshipsTable(row, bodyElement, type) {
@@ -429,6 +450,6 @@ function deleteSponsorship(sponsorID, sponsoredID, type) {
 }
 
 function resetTable() {
-  console.log("reset");
-  populateSponsorshipsTable(sampleShelterSponsorships, samplePetSponsorships);
+  getPetSponsorships();
+  getShelterSponsorships();
 }

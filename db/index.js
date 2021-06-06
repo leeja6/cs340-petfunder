@@ -60,7 +60,7 @@ app.post('/pets', function(req,res,next) {
       }
       res.send(String(result.updateId));
     });
-  }  
+  }
 });
 
 app.get('/shelters', function(req,res,next) {
@@ -186,6 +186,18 @@ app.get('/shelterSponsorships', function(req,res,next) {
   });
 });
 
+app.get('/shelterSponsorshipsFilter', function(req,res,next) {
+  var selectQuery = 'SELECT Sponsors.sponsorID, firstName, lastName, Shelters.shelterID, name, amount, beginDate, endDate from ShelterSponsorships LEFT JOIN Sponsors ON Sponsors.sponsorID = ShelterSponsorships.sponsorID LEFT JOIN Shelters ON Shelters.shelterID = ShelterSponsorships.shelterID WHERE Sponsors.sponsorID=?';
+  pool.query(selectQuery, [req.query.sponsorID], function(err, rows) {
+    if (err) {
+      next(err);
+      return;
+    }
+    res.send(rows);
+  });
+});
+
+
 app.delete('/shelterSponsorships', function(req,res,next) {
   pool.query('DELETE from ShelterSponsorships WHERE sponsorID=? AND shelterID=?', [req.query.sponsorID, req.query.shelterID], function(err,result){
     if(err){
@@ -231,6 +243,17 @@ app.put('/shelterSponsorships', function(req,res,next) {
 app.get('/petSponsorships', function(req,res,next) {
   var selectQuery = 'SELECT Sponsors.sponsorID, firstName, lastName, Pets.petID, name, amount, beginDate, endDate from PetSponsorships LEFT JOIN Sponsors ON Sponsors.sponsorID = PetSponsorships.sponsorID LEFT JOIN Pets ON Pets.petID = PetSponsorships.petID';
   pool.query(selectQuery, function(err, rows) {
+    if (err) {
+      next(err);
+      return;
+    }
+    res.send(rows);
+  });
+});
+
+app.get('/petSponsorshipsFilter', function(req,res,next) {
+  var selectQuery = 'SELECT Sponsors.sponsorID, firstName, lastName, Pets.petID, name, amount, beginDate, endDate from PetSponsorships LEFT JOIN Sponsors ON Sponsors.sponsorID = PetSponsorships.sponsorID LEFT JOIN Pets ON Pets.petID = PetSponsorships.petID WHERE Sponsors.sponsorID=?';
+  pool.query(selectQuery, [req.query.sponsorID], function(err, rows) {
     if (err) {
       next(err);
       return;

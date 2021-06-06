@@ -56,10 +56,10 @@
 </div>
 <br>
 <br>
-<label for="sponsorIDSearch">sponsorID Filter</label>
-<input type="text" id="sponsorIDSearch" name="sponsorIDSearch" oninput="resetTable()">
-<input type="checkbox" id="filterUsed" name="filterUsed" value="true" onclick="resetTable()">
-<label for="filterUsed">Use Filter</label><br>
+<label for="sponsorIDSearch">Filter by Sponsor: </label>
+<select id="sponsorIDSearch" name="sponsorIDSearch" oninput="resetTable()">
+<input style="display: none" type="checkbox" id="filterUsed" name="filterUsed" value="true">
+<br>
 <br>
   <table>
     <caption>Sponsorships Database</caption>

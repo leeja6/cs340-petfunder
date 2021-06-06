@@ -51,7 +51,7 @@ function onSponsorCreated() {
 function createSponsor() {
   var firstName = document.getElementById("firstName").value;
   var lastName = document.getElementById("lastName").value;
-  if ((firstName=='')||(lastName=='')) {
+  if ((firstName.replace(/\s/g,'')=='')||(lastName.replace(/\s/g,'')=='')) {
     alert('First Name and Last Name are required fields.');
     return;
   }
