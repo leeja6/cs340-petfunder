@@ -15,37 +15,37 @@
         </div>
           <br />
           <br />
-        <form>
+        <form id = "submitForm">
             <br>
             <fieldset>
                 <legend>Add Shelter to Shelters Database</legend>
-                <label>Name:
-                    <input id="name" type="text" name="name" size="30" required>
+                <label>Name*:
+                    <input id="name" type="text" name="name" size="30" required minlength = 1>
                 </label>
                 <br />
                 <br />
-                <label>Street Address:
-                    <input id="streetAddress" type="text" name="streetAddress" size="30"  required>
+                <label>Street Address*:
+                    <input id="streetAddress" type="text" name="streetAddress" size="30" required>
                 </label>
                 <br />
                 <br />
-                <label>City:
+                <label>City*:
                     <input id="city" type="text" name="city" size="30"  required>
                 </label>
                 <br />
                 <br />
-                <label>State:
-                    <input id="state" type="text" name="state" size="30" maxlength="100" required>
+                <label>State*:
+                    <input id="state" type="text" name="state" size="30" maxlength="2" required>
                 </label>
                 <br />
                 <br />
-                <label>Phone number:
-                    <input id="phoneNumber" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phoneNumber" size="30" maxlength="100" required>
+                <label>Phone number*:
+                    <input id="phoneNumber" type = "text" pattern="[0-9]{10,10}" name="phoneNumber" size="30" maxlength="10" required>
                 </label>
                 <br />
                 <br />
                 <label>Fax:
-                    <input id="fax" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="fax" size="30" maxlength="100">
+                    <input id="fax" name="fax" type = "text" pattern="[0-9]{10,10}" size="30" maxlength="10">
                 </label>
                 <br />
                 <br />
@@ -61,7 +61,7 @@
                 <label for="no">No</label>
                 <br />
                 <br />
-                <button type="button" onclick="createShelter()">Create Shelter</button>
+                <button type="button" id="create" onclick="createShelter()">Create Shelter</button>
             </fieldset>
         </form>
 
