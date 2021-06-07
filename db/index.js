@@ -53,6 +53,7 @@ app.post('/pets', function(req,res,next) {
       res.send(String(result.deleteId));
     });
   } else if (req.body.action === 'update'){
+<<<<<<< HEAD
       pool.query("SELECT * FROM PETS WHERE petID=?", [req.body.petID], function(err,result) {
        if(err){
          next(err);
@@ -71,6 +72,17 @@ app.post('/pets', function(req,res,next) {
     }
   })
 }});
+=======
+    pool.query('UPDATE Pets SET name = ?, birthday = ?, animal = ?, breed = ?, personality = ?, adoptable = ?, goal = ?, shelterID = ? WHERE petID = ?', [req.body.name, req.body.birthday, req.body.animal, req.body.breed, req.body.personality, req.body.adoptable, req.body.goal, req.body.shelterID, req.body.petID], function(err, result) {
+      if (err) {
+        next(err);
+        return;
+      }
+      res.send(String(result.updateId));
+    });
+  }  
+});
+>>>>>>> 1e867edf20aeab4980c48e991a299f1a68853393
 
 app.get('/shelters', function(req,res,next) {
   var selectQuery = 'SELECT * FROM Shelters;';
