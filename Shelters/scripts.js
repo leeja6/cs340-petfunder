@@ -91,6 +91,15 @@ var apiBaseUrl = 'http://localhost:7371';
 
 createStateSelect();
 
+function ValidateEmail(input) {
+  var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  if (input.match(validRegex)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
   function createStateSelect() {
     var stateSelect = document.getElementById("state");
     for(let i in statesMapping) {
@@ -160,6 +169,10 @@ createStateSelect();
       return;
     }
 
+    if (email!=''&!ValidateEmail(email)) {
+      alert('Please enter a valid email address.')
+      return;
+    }
 
     var req = new XMLHttpRequest();
     req.onload = getSheltersAndPopulateTable;
@@ -277,15 +290,12 @@ function updateShelter(shelterID) {
   var phoneNumber = document.getElementById("phoneNumber"+shelterID).value;
   var fax = document.getElementById("fax"+shelterID).value;
   var email = document.getElementById("email"+shelterID).value;
-  var isSponsorable = document.getElementById("sponsorable"+shelterID).checked;
-
-  var action = 'update';
-
-  if (name==''||streetAddress==''||city==''||state==''||phoneNumber=='') {
-    alert('Name, Street Address, City, State, and Phone Number are required fields.');
+  if (email!=''&!ValidateEmail(email)) {
+    alert('Please enter a valid email address.')
     return;
   }
-
+  var isSponsorable = document.getElementById("sponsorable"+shelterID).checked;
+  var action = 'update';
   var req = new XMLHttpRequest();
   req.onload = getSheltersAndPopulateTable;
   req.open("post", apiBaseUrl + '/shelters', true);

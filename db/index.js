@@ -104,7 +104,7 @@ app.post('/shelters', function(req,res,next) {
       res.send(String(result.deleteId));
     });
   } else if (req.body.action === 'update'){
-    pool.query("SELECT * FROM SHELTERS WHERE shelterID=?", [req.body.shelterID], function(err,result) {
+    pool.query("SELECT * FROM Shelters WHERE shelterID=?", [req.body.shelterID], function(err,result) {
       if(err){
         next(err);
         return;
