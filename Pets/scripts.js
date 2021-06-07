@@ -44,7 +44,7 @@ var samplePets = [
   ]
 
   var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
-      getPets();
+    getPets();
     sampleShelters = getShelterData();
 
     function getValueWithinBrackets(string) {
@@ -290,6 +290,11 @@ var samplePets = [
       }
       
       var action = 'update';
+
+      if (name==''||birthday==''||animal==''||personality==''||goal=='') {
+        alert('Name, Birthday, Animal, Personality, and Goal are required fields.');
+        return;
+      }
     
       var req = new XMLHttpRequest();
       req.onload = getPets;
@@ -320,4 +325,3 @@ var samplePets = [
         petID: petID
       }));
     }
-
