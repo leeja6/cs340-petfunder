@@ -191,6 +191,11 @@ function updateShelter(shelterID) {
   var isSponsorable = document.getElementById("sponsorable"+shelterID).checked;
 
   var action = 'update';
+    
+  if (name==''||streetAddress==''||city==''||state==''||phoneNumber=='') {
+    alert('Name, Street Address, City, State, and Phone Number are required fields.');
+    return;
+  }
 
   var req = new XMLHttpRequest();
   req.onload = getSheltersAndPopulateTable;
