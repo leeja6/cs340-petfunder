@@ -79,6 +79,12 @@ var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
       }
     }
     var insert = 'insert';
+      
+    if (name==''||streetAddress==''||city==''||state==''||phoneNumber=='') {
+      alert('Name, Street Address, City, State, and Phone Number are required fields.');
+      return;
+    }
+
 
     var req = new XMLHttpRequest();
     req.onload = getSheltersAndPopulateTable;
