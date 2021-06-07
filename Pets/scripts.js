@@ -43,7 +43,7 @@ var samplePets = [
     "Seattle Humane Society [3]",
   ]
 
-  var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
+  var apiBaseUrl = 'http://localhost:7371';
     getPets();
     sampleShelters = getShelterData();
 
@@ -157,7 +157,7 @@ var samplePets = [
         alert('Name, Birthday, Animal, Personality, and Goal are required fields.');
         return;
       }
-      
+
       var req = new XMLHttpRequest();
       req.onload = getPets;
       req.open("post", apiBaseUrl + '/pets', true);
@@ -218,7 +218,7 @@ var samplePets = [
           updatePet(petID);
         })
       })
-      
+
       var deleteButton = document.createElement('button');
       deleteButton.innerHTML = "Delete";
       deleteButton.addEventListener('click',function(event) {
@@ -250,14 +250,14 @@ var samplePets = [
         } else if (columns[i-2]=="shelterID") {
           var select = document.createElement("select");
           select.id = columns[i-2]+petID;
-          
+
           for(element in sampleShelters)
           {
             var option = document.createElement("option");
             option.setAttribute("value", sampleShelters[element]);
             option.innerHTML = sampleShelters[element];
             select.appendChild(option);
-            
+
           }
           if (tdText != "") {
             select.value = tdText;
@@ -271,7 +271,7 @@ var samplePets = [
         }
       }
     }
-    
+
     function updatePet(petID) {
       var row = document.getElementById(petID);
       var rowNodes = row.childNodes;
@@ -288,14 +288,14 @@ var samplePets = [
       } else {
         var shelterID = getValueWithinBrackets(shelterText);
       }
-      
+
       var action = 'update';
 
       if (name==''||birthday==''||animal==''||personality==''||goal=='') {
         alert('Name, Birthday, Animal, Personality, and Goal are required fields.');
         return;
       }
-    
+
       var req = new XMLHttpRequest();
       req.onload = getPets;
       req.open("post", apiBaseUrl + '/pets', true);

@@ -236,9 +236,22 @@ function editShelter(shelterID) {
   for (var i = 2; i < rowNodes.length - 2; i++) {
     var td = rowNodes[i];
     var tdText = td.textContent;
+    if (columns[i-2]=="state") {
+      console.log(tdText)
+    }
     td.textContent = "";
     var input = document.createElement("input");
     input.id = columns[i-2]+shelterID;
+    if (columns[i-2]=="state") {
+      input = document.createElement("select");
+      for(let i in statesMapping) {
+        var opt = document.createElement("option");
+        opt.innerHTML = statesMapping[i];
+        opt.value = statesMapping[i];
+        input.appendChild(opt);
+      }
+      input.value = tdText;
+    }
     input.setAttribute("id",columns[i-2]+shelterID);
     input.defaultValue = tdText;
     if (columns[i-2]=="sponsorable") {
@@ -251,6 +264,7 @@ function editShelter(shelterID) {
     td.appendChild(input);
     input.classList.add("table");
   }
+  document.getElementById("state"+shelterID).size = 1;
 }
 
 function updateShelter(shelterID) {
@@ -266,7 +280,7 @@ function updateShelter(shelterID) {
   var isSponsorable = document.getElementById("sponsorable"+shelterID).checked;
 
   var action = 'update';
-    
+
   if (name==''||streetAddress==''||city==''||state==''||phoneNumber=='') {
     alert('Name, Street Address, City, State, and Phone Number are required fields.');
     return;
