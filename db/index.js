@@ -53,15 +53,24 @@ app.post('/pets', function(req,res,next) {
       res.send(String(result.deleteId));
     });
   } else if (req.body.action === 'update'){
-    pool.query('UPDATE Pets SET name = ?, birthday = ?, animal = ?, breed = ?, personality = ?, adoptable = ?, goal = ?, shelterID = ? WHERE petID = ?', [req.body.name, req.body.birthday, req.body.animal, req.body.breed, req.body.personality, req.body.adoptable, req.body.goal, req.body.shelterID, req.body.petID], function(err, result) {
-      if (err) {
-        next(err);
-        return;
-      }
-      res.send(String(result.updateId));
-    });
-  }
-});
+      pool.query("SELECT * FROM PETS WHERE petID=?", [req.body.petID], function(err,result) {
+       if(err){
+         next(err);
+         return;
+       }
+        if(result.length==1) {
+          var curVals = result[0];
+          pool.query('UPDATE Pets SET name = ?, birthday = ?, animal = ?, breed = ?, personality = ?, adoptable = ?, goal = ?, shelterID = ? WHERE petID = ?',
+          [req.body.name||curVals.name, req.body.birthday||curVals.birthday, req.body.animal||curVals.animal, req.body.breed||curVals.breed, req.body.personality||curVals.personality, req.body.adoptable||curVals.adoptable, req.body.goal||curVals.goal, req.body.shelterID||curVals.shelterID, req.body.petID], function(err, result) {
+            if (err) {
+              next(err);
+              return;
+            }
+          res.send(String(result.updateId));
+      });
+    }
+  })
+}});
 
 app.get('/shelters', function(req,res,next) {
   var selectQuery = 'SELECT * FROM Shelters;';
@@ -95,15 +104,25 @@ app.post('/shelters', function(req,res,next) {
       res.send(String(result.deleteId));
     });
   } else if (req.body.action === 'update'){
-    pool.query('UPDATE Shelters SET name = ?, streetAddress = ?, city = ?, state = ?, phoneNumber = ?, fax = ?, email = ?, sponsorable = ? WHERE shelterID = ?', [req.body.name, req.body.streetAddress, req.body.city, req.body.state, req.body.phoneNumber, req.body.fax, req.body.email, req.body.sponsorable, req.body.shelterID], function(err, result) {
-      if (err) {
+    pool.query("SELECT * FROM SHELTERS WHERE shelterID=?", [req.body.shelterID], function(err,result) {
+      if(err){
         next(err);
         return;
       }
-      res.send(String(result.updateId));
-    });
-  }
-});
+    if(result.length==1) {
+      var curVals = result[0];
+      pool.query('UPDATE Shelters SET name = ?, streetAddress = ?, city = ?, state = ?, phoneNumber = ?, fax = ?, email = ?, sponsorable = ? WHERE shelterID = ?',
+      [req.body.name||curVals.name, req.body.streetAddress||curVals.streetAddress, req.body.city||curVals.streetAddress, req.body.state||curVals.state, req.body.phoneNumber||curVals.phoneNumber, req.body.fax||curVals.fax, req.body.email||curVals.email, req.body.sponsorable||curVals.sponsorable, req.body.shelterID], function(err, result) {
+        if (err) {
+          next(err);
+          return;
+        }
+        res.send(String(result.updateId));
+        });
+      }
+    })
+  }})
+
 
 app.get('/sponsors', function(req,res,next) {
   var selectQuery = 'SELECT * from Sponsors';

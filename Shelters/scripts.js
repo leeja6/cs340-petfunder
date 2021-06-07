@@ -1,3 +1,65 @@
+const statesMapping = {
+  "Alabama": "AL",
+  "Alaska": "AK",
+  "American Samoa": "AS",
+  "Arizona": "AZ",
+  "Arkansas": "AR",
+  "California": "CA",
+  "Colorado": "CO",
+  "Connecticut": "CT",
+  "Delaware": "DE",
+  "District Of Columbia": "DC",
+  "Federated States Of Micronesia": "FM",
+  "Florida": "FL",
+  "Georgia": "GA",
+  "Guam": "GU",
+  "Hawaii": "HI",
+  "Idaho": "ID",
+  "Illinois": "IL",
+  "Indiana": "IN",
+  "Iowa": "IA",
+  "Kansas": "KS",
+  "Kentucky": "KY",
+  "Louisiana": "LA",
+  "Maine": "ME",
+  "Marshall Islands": "MH",
+  "Maryland": "MD",
+  "Massachusetts": "MA",
+  "Michigan": "MI",
+  "Minnesota": "MN",
+  "Mississippi": "MS",
+  "Missouri": "MO",
+  "Montana": "MT",
+  "Nebraska": "NE",
+  "Nevada": "NV",
+  "New Hampshire": "NH",
+  "New Jersey": "NJ",
+  "New Mexico": "NM",
+  "New York": "NY",
+  "North Carolina": "NC",
+  "North Dakota": "ND",
+  "Northern Mariana Islands": "MP",
+  "Ohio": "OH",
+  "Oklahoma": "OK",
+  "Oregon": "OR",
+  "Palau": "PW",
+  "Pennsylvania": "PA",
+  "Puerto Rico": "PR",
+  "Rhode Island": "RI",
+  "South Carolina": "SC",
+  "South Dakota": "SD",
+  "Tennessee": "TN",
+  "Texas": "TX",
+  "Utah": "UT",
+  "Vermont": "VT",
+  "Virgin Islands": "VI",
+  "Virginia": "VA",
+  "Washington": "WA",
+  "West Virginia": "WV",
+  "Wisconsin": "WI",
+  "Wyoming": "WY"
+}
+
 var sampleShelters = [
     {
       "shelterID": 1,
@@ -25,7 +87,19 @@ var sampleShelters = [
     }
   ]
 
-var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
+var apiBaseUrl = 'http://localhost:7371';
+
+createStateSelect();
+
+  function createStateSelect() {
+    var stateSelect = document.getElementById("state");
+    for(let i in statesMapping) {
+      var opt = document.createElement("option");
+      opt.innerHTML = i;
+      opt.value = statesMapping[i];
+      stateSelect.appendChild(opt);
+    }
+  }
 
   function sheltersReceived() {
     //console.log(this.responseText);
@@ -34,6 +108,7 @@ var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
       var shelterData = sampleShelters[i];
       if (shelterData.sponsorable == 1) {
         shelterData.sponsorable = true;
+
       }
       else {
         shelterData.sponsorable = false;
@@ -79,7 +154,7 @@ var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
       }
     }
     var insert = 'insert';
-      
+
     if (name==''||streetAddress==''||city==''||state==''||phoneNumber=='') {
       alert('Name, Street Address, City, State, and Phone Number are required fields.');
       return;
