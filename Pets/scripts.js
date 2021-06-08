@@ -43,7 +43,7 @@ var samplePets = [
     "Seattle Humane Society [3]",
   ]
 
-  var apiBaseUrl = 'http://localhost:7371';
+  var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
     getPets();
     sampleShelters = getShelterData();
 

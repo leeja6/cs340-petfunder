@@ -55,7 +55,7 @@ var displayTypeToHeaderMapping = {
   "shelters":"shelterID"
 };
 
-var apiBaseUrl = 'http://localhost:7371';
+var apiBaseUrl = 'http://flip1.engr.oregonstate.edu:7371';
 getPetSponsorships();
 getShelterSponsorships();
 getSponsorData();
