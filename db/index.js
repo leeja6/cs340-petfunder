@@ -112,7 +112,7 @@ app.post('/shelters', function(req,res,next) {
     if(result.length==1) {
       var curVals = result[0];
       pool.query('UPDATE Shelters SET name = ?, streetAddress = ?, city = ?, state = ?, phoneNumber = ?, fax = ?, email = ?, sponsorable = ? WHERE shelterID = ?',
-      [req.body.name||curVals.name, req.body.streetAddress||curVals.streetAddress, req.body.city||curVals.streetAddress, req.body.state||curVals.state, req.body.phoneNumber||curVals.phoneNumber, req.body.fax, req.body.email, req.body.sponsorable||curVals.sponsorable, req.body.shelterID], function(err, result) {
+      [req.body.name||curVals.name, req.body.streetAddress||curVals.streetAddress, req.body.city||curVals.city, req.body.state||curVals.state, req.body.phoneNumber||curVals.phoneNumber, req.body.fax, req.body.email, req.body.sponsorable||curVals.sponsorable, req.body.shelterID], function(err, result) {
         if (err) {
           next(err);
           return;

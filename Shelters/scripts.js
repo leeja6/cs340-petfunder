@@ -174,11 +174,11 @@ function formValidate(input, type) {
       alert("Please enter a valid phone number.");
       return;
     }
-    if (email!=''&!formValidate(email, "email")) {
+    if (email!=''&&!formValidate(email, "email")) {
       alert('Please enter a valid email address.');
       return;
     }
-    if (fax!=''&!formValidate(fax, "phone")) {
+    if (fax!=''&&!formValidate(fax, "phone")) {
       alert('Please enter a valid fax number.');
       return;
     }
@@ -299,15 +299,15 @@ function updateShelter(shelterID) {
   var fax = document.getElementById("fax"+shelterID).value;
   var email = document.getElementById("email"+shelterID).value;
   var isSponsorable = document.getElementById("sponsorable"+shelterID).checked;
-  if (!formValidate(phoneNumber,"phone")) {
+  if (email!=''&&!formValidate(phoneNumber,"phone")) {
     alert("Please enter a valid phone number.");
     return;
   }
-  if (email!=''&!formValidate(email, "email")) {
+  if (email!=''&&!formValidate(email, "email")) {
     alert('Please enter a valid email address.');
     return;
   }
-  if (fax!=''&!formValidate(fax, "phone")) {
+  if (fax!=''&&!formValidate(fax, "phone")) {
     alert('Please enter a valid fax number.');
     return;
   }
