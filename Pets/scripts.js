@@ -291,11 +291,6 @@ var samplePets = [
 
       var action = 'update';
 
-      if (name==''||birthday==''||animal==''||personality==''||goal=='') {
-        alert('Name, Birthday, Animal, Personality, and Goal are required fields.');
-        return;
-      }
-
       var req = new XMLHttpRequest();
       req.onload = getPets;
       req.open("post", apiBaseUrl + '/pets', true);

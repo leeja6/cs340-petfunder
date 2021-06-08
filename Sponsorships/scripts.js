@@ -75,7 +75,7 @@ function petSponsorshipsReceived() {
     var newSponsorship = {
       sponsorID: petSponsorshipData.firstName + ' ' + petSponsorshipData.lastName + ' [' + petSponsorshipData.sponsorID + ']',
       petID: petSponsorshipData.name + ' [' + petSponsorshipData.petID + ']',
-      amount: petSponsorshipData.amount,
+      amount: petSponsorshipData.amount.toLocaleString('en-US', { style: 'currency', currency: "USD"}),
       beginDate: petSponsorshipData.beginDate.split("T")[0],
       endDate: (petSponsorshipData.endDate != '0000-00-00') ? petSponsorshipData.endDate.split("T")[0] : ""
     }
@@ -106,7 +106,7 @@ function shelterSponsorshipsReceived() {
     var newSponsorship = {
       sponsorID: shelterSponsorshipData.firstName + ' ' + shelterSponsorshipData.lastName + ' [' + shelterSponsorshipData.sponsorID + ']',
       shelterID: shelterSponsorshipData.name + ' [' + shelterSponsorshipData.shelterID   + ']',
-      amount: shelterSponsorshipData.amount,
+      amount: shelterSponsorshipData.amount.toLocaleString('en-US', { style: 'currency', currency: "USD"}),
       beginDate: shelterSponsorshipData.beginDate.split("T")[0],
       endDate: (shelterSponsorshipData.endDate != '0000-00-00') ? shelterSponsorshipData.endDate.split("T")[0] : ""
     }
@@ -248,6 +248,10 @@ function createSponsorship() {
   var beginDate = document.getElementById("beginDate").value;
   if (amount==''||beginDate=='') {
     alert('Sponsorship Amount and Begin Date are required fields.');
+    return;
+  }
+  if (amount<=0) {
+    alert('Please enter a valid Sponsorship Amount.')
     return;
   }
   var endDate = document.getElementById("endDate").value;

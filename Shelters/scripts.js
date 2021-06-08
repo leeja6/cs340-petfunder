@@ -91,8 +91,11 @@ var apiBaseUrl = 'http://localhost:7371';
 
 createStateSelect();
 
-function ValidateEmail(input) {
-  var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+function formValidate(input, type) {
+  var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; //default validate: e-mail
+  if (type=="phone") {
+    validRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+  }
   if (input.match(validRegex)) {
     return true;
   } else {
@@ -163,17 +166,22 @@ function ValidateEmail(input) {
       }
     }
     var insert = 'insert';
-
     if (name==''||streetAddress==''||city==''||state==''||phoneNumber=='') {
       alert('Name, Street Address, City, State, and Phone Number are required fields.');
       return;
     }
-
-    if (email!=''&!ValidateEmail(email)) {
-      alert('Please enter a valid email address.')
+    if (!formValidate(phoneNumber,"phone")) {
+      alert("Please enter a valid phone number.");
       return;
     }
-
+    if (email!=''&!formValidate(email, "email")) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+    if (fax!=''&!formValidate(fax, "phone")) {
+      alert('Please enter a valid fax number.');
+      return;
+    }
     var req = new XMLHttpRequest();
     req.onload = getSheltersAndPopulateTable;
     req.open("post", apiBaseUrl + '/shelters', true);
@@ -290,11 +298,19 @@ function updateShelter(shelterID) {
   var phoneNumber = document.getElementById("phoneNumber"+shelterID).value;
   var fax = document.getElementById("fax"+shelterID).value;
   var email = document.getElementById("email"+shelterID).value;
-  if (email!=''&!ValidateEmail(email)) {
-    alert('Please enter a valid email address.')
+  var isSponsorable = document.getElementById("sponsorable"+shelterID).checked;
+  if (!formValidate(phoneNumber,"phone")) {
+    alert("Please enter a valid phone number.");
     return;
   }
-  var isSponsorable = document.getElementById("sponsorable"+shelterID).checked;
+  if (email!=''&!formValidate(email, "email")) {
+    alert('Please enter a valid email address.');
+    return;
+  }
+  if (fax!=''&!formValidate(fax, "phone")) {
+    alert('Please enter a valid fax number.');
+    return;
+  }
   var action = 'update';
   var req = new XMLHttpRequest();
   req.onload = getSheltersAndPopulateTable;
