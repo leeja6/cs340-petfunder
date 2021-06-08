@@ -247,6 +247,12 @@ var samplePets = [
             input.checked = true;
           }
           td.appendChild(input);
+        } else if (columns[i-2]=="birthday") {
+          input.defaultValue = tdText
+          input.type = "date"
+          input.size = 15;
+          td.appendChild(input);
+          input.classList.add("table");
         } else if (columns[i-2]=="shelterID") {
           var select = document.createElement("select");
           select.id = columns[i-2]+petID;
